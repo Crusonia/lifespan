@@ -1,0 +1,442 @@
+{
+  "attribution_scope": "Paired state-time and transition accounting, not additive pathway attribution. Use demeter leverage for explicit counterfactual Shapley allocation.",
+  "baseline": "baseline_validation",
+  "intervention": "reduce_upf_30_validation",
+  "intervention_metadata": {
+    "active_parameters": [
+      "initial_healthy_share",
+      "initial_ir_share",
+      "initial_t2d_share",
+      "h_to_ir_rate",
+      "ir_to_h_rate",
+      "ir_to_t2d_rate",
+      "mortality_ir_ratio",
+      "mortality_t2d_ratio",
+      "beta_upf_progression",
+      "diet_lag_years",
+      "adult_age",
+      "upf_min_multiplier",
+      "upf_max_multiplier"
+    ],
+    "diet_response": {
+      "initialization": "Zero deviation and no pre-run exposure history; shared adult response, not individual lifetime dose",
+      "kind": "legacy",
+      "limitations": [
+        "All response parameters remain synthetic; no clinical dose range, saturation or timing is established.",
+        "Cumulative exposure is reported; only bounded fading memory affects hazards, avoiding an assumed irreversible dose effect.",
+        "Age-dependent response and clinical T2D remission/relapse are unresolved; only existing H/IR or H/PreChronic/prediabetes reversals are modified.",
+        "Recovery and progression have independent amplitudes and lags; observation/diagnosis delay is not separately identified."
+      ],
+      "role": "canonical_hazard_modifiers",
+      "shape": "linear",
+      "timing": "End-of-year response modifies year-end competing transition hazards; annual health operator order is unchanged",
+      "units": {
+        "cumulative_exposure_years": "relative_exposure * years",
+        "fast_response": "log_multiplier",
+        "recovery_response": "relative_exposure",
+        "retained_exposure": "relative_exposure"
+      }
+    },
+    "dietary_exposures": {
+      "annual_upf": [
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7
+      ],
+      "baseline_bundle_sha256": null,
+      "baseline_definition_sha256": null,
+      "changes": {},
+      "limitations": [
+        "Observed baselines do not establish causal effects; effect and lag remain synthetic.",
+        "Reference means are held fixed; sampling SEs and descriptive intake distributions are retained, not sampled as independent causal parameters.",
+        "Absolute changes are targets, not a mass-balanced food substitution or energy-balance model.",
+        "Context-only targets do not alter health; absence of an implemented effect is not evidence of no effect.",
+        "Adult survey references do not initialize individual diets: UPF is 19+, nutrients 20+, and the engine adult threshold is separately registered; age, period and population transport remain unresolved."
+      ],
+      "ontology_sha256": "9681a4bc70d219b3e1db692f3b1e15bc313e9728d7a29905d970536736e31800",
+      "reference_uncertainty_propagated": false,
+      "schedule": [],
+      "upf_multiplier": 0.7
+    },
+    "evidence_sha256": "bd335ed92d79a023400eec0da0cbcaf6025f6ee4f3817af85d2aa31cf6ca188f",
+    "extension_provenance": {
+      "active_packages": [],
+      "core_model_version": "0.1.0a1",
+      "equations": "canonical_engine",
+      "registration_note": "Direct API/import execution has no verified author, license or package identity. Use the extension registry to record package provenance.",
+      "scenario_origin": "unregistered; see the explicit scenario and evidence hashes",
+      "schema_version": 1,
+      "unregistered_module": null
+    },
+    "extrapolation": false,
+    "health_structure": "legacy",
+    "healthspan_metric": {
+      "alias": "metabolically_healthy_life_expectancy",
+      "competing_risks": "Death precedes survivor transitions; IR progression/regression compete for the same survivors",
+      "interpretation": "Total remaining healthy-state time, not age at first disease or cohort lifespan",
+      "label": "Period years in the modeled healthy state",
+      "method": "Sullivan prevalence weighting",
+      "method_source": "https://www.cdc.gov/nchs/data/statnt/statnt21.pdf",
+      "multimorbidity": "States are mutually exclusive; other diseases and overlapping diagnoses are not represented",
+      "primary": "healthspan",
+      "states": {
+        "healthy": "Synthetic healthy/normoglycemic proxy; not absence of all disease",
+        "insulin_resistant": "Synthetic IR/prediabetes proxy; not an observed PreChronic state",
+        "t2d": "Modeled T2D stock; entry by IR-to-T2D flow, exit only by mortality"
+      },
+      "unavailable": {
+        "all_chronic_disease_free_years": "Only T2D is modeled; T2D-free time includes the IR proxy",
+        "diagnosed_chronic_disease_years": "No separate diagnosis/ascertainment model",
+        "prechronic_years": "No separate PreChronic state yet",
+        "qaly": "No sourced utility weights or joint-condition valuation",
+        "who_hale": "No all-cause disability weights or comorbidity correction"
+      },
+      "unit": "years per period life-table survivor at the stated age",
+      "version": "healthspan-v1"
+    },
+    "limitations": [
+      "VALIDATION ONLY \u2014 NOT A SCIENTIFIC ESTIMATE: metabolic inputs remain synthetic.",
+      "Closed population: births and migration are zero; this is not a U.S. population forecast.",
+      "Initial adult state fractions are constant across ages/sex; pediatric metabolic disease is omitted.",
+      "The IR state is a synthetic prediabetes proxy; normoglycemia does not establish overall metabolic health.",
+      "Period life expectancy freezes the current mortality schedule; it is not predicted cohort lifespan.",
+      "Metabolically healthy years use a Sullivan prevalence weighting; this is not overall HALE.",
+      "The 100+ tail holds state membership fixed and assumes exponential mortality within states.",
+      "Mortality and population source uncertainty, structural uncertainty, and correlated parameters are not propagated."
+    ],
+    "model_version": "0.1.0a1",
+    "mortality_vintage": 2024,
+    "parameter_status_counts": {
+      "synthetic": 13
+    },
+    "population_vintage": "Census 2025",
+    "scenario": {
+      "allow_extrapolation": false,
+      "baseline_year": 2024,
+      "description": "Synthetic plumbing test with UPF exposure reduced 30 percent from baseline.",
+      "diet": {},
+      "diet_response": {
+        "kind": "legacy",
+        "shape": "linear"
+      },
+      "exposures": {
+        "fiber": 1.0,
+        "fruit_veg": 1.0,
+        "upf": 0.7
+      },
+      "glp1": null,
+      "health_structure": "legacy",
+      "mode": "validation",
+      "name": "reduce_upf_30_validation",
+      "sex": "all",
+      "upf_schedule": [],
+      "years": 25
+    },
+    "scientific_blockers": [
+      "National age-specific metabolic transition hazards are unresolved.",
+      "Age-specific T2D/prediabetes initial prevalence is not calibrated; CDC total diabetes includes other types.",
+      "Dietary causal coefficient, dose scale, lag, and supported population are unresolved.",
+      "State mortality hazard ratios remain synthetic.",
+      "No historical end-to-end dietary-effect validation; mortality persistence backtest is a limited benchmark."
+    ],
+    "source_bundle_sha256": "f830711b211e8bdd7e2f9f9707f1b8a86dca245e058a05730be8c0eb48f74ed3",
+    "status": "VALIDATION ONLY \u2014 NOT A SCIENTIFIC ESTIMATE",
+    "synthetic_parameters": [
+      "initial_healthy_share",
+      "initial_ir_share",
+      "initial_t2d_share",
+      "h_to_ir_rate",
+      "ir_to_h_rate",
+      "ir_to_t2d_rate",
+      "mortality_ir_ratio",
+      "mortality_t2d_ratio",
+      "beta_upf_progression",
+      "diet_lag_years",
+      "adult_age",
+      "upf_min_multiplier",
+      "upf_max_multiplier"
+    ],
+    "transition_flows": [
+      "healthy_to_ir",
+      "ir_to_healthy",
+      "ir_to_t2d"
+    ],
+    "unresolved_parameters": []
+  },
+  "intervention_scenario": {
+    "allow_extrapolation": false,
+    "baseline_year": 2024,
+    "description": "Synthetic plumbing test with UPF exposure reduced 30 percent from baseline.",
+    "diet": {},
+    "diet_response": {
+      "kind": "legacy",
+      "shape": "linear"
+    },
+    "exposures": {
+      "fiber": 1.0,
+      "fruit_veg": 1.0,
+      "upf": 0.7
+    },
+    "glp1": null,
+    "health_structure": "legacy",
+    "mode": "validation",
+    "name": "reduce_upf_30_validation",
+    "sex": "all",
+    "upf_schedule": [],
+    "years": 25
+  },
+  "metadata": {
+    "active_parameters": [
+      "initial_healthy_share",
+      "initial_ir_share",
+      "initial_t2d_share",
+      "h_to_ir_rate",
+      "ir_to_h_rate",
+      "ir_to_t2d_rate",
+      "mortality_ir_ratio",
+      "mortality_t2d_ratio",
+      "beta_upf_progression",
+      "diet_lag_years",
+      "adult_age",
+      "upf_min_multiplier",
+      "upf_max_multiplier"
+    ],
+    "diet_response": {
+      "initialization": "Zero deviation and no pre-run exposure history; shared adult response, not individual lifetime dose",
+      "kind": "legacy",
+      "limitations": [
+        "All response parameters remain synthetic; no clinical dose range, saturation or timing is established.",
+        "Cumulative exposure is reported; only bounded fading memory affects hazards, avoiding an assumed irreversible dose effect.",
+        "Age-dependent response and clinical T2D remission/relapse are unresolved; only existing H/IR or H/PreChronic/prediabetes reversals are modified.",
+        "Recovery and progression have independent amplitudes and lags; observation/diagnosis delay is not separately identified."
+      ],
+      "role": "canonical_hazard_modifiers",
+      "shape": "linear",
+      "timing": "End-of-year response modifies year-end competing transition hazards; annual health operator order is unchanged",
+      "units": {
+        "cumulative_exposure_years": "relative_exposure * years",
+        "fast_response": "log_multiplier",
+        "recovery_response": "relative_exposure",
+        "retained_exposure": "relative_exposure"
+      }
+    },
+    "dietary_exposures": {
+      "annual_upf": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "baseline_bundle_sha256": null,
+      "baseline_definition_sha256": null,
+      "changes": {},
+      "limitations": [
+        "Observed baselines do not establish causal effects; effect and lag remain synthetic.",
+        "Reference means are held fixed; sampling SEs and descriptive intake distributions are retained, not sampled as independent causal parameters.",
+        "Absolute changes are targets, not a mass-balanced food substitution or energy-balance model.",
+        "Context-only targets do not alter health; absence of an implemented effect is not evidence of no effect.",
+        "Adult survey references do not initialize individual diets: UPF is 19+, nutrients 20+, and the engine adult threshold is separately registered; age, period and population transport remain unresolved."
+      ],
+      "ontology_sha256": "9681a4bc70d219b3e1db692f3b1e15bc313e9728d7a29905d970536736e31800",
+      "reference_uncertainty_propagated": false,
+      "schedule": [],
+      "upf_multiplier": 1.0
+    },
+    "evidence_sha256": "bd335ed92d79a023400eec0da0cbcaf6025f6ee4f3817af85d2aa31cf6ca188f",
+    "extension_provenance": {
+      "active_packages": [],
+      "core_model_version": "0.1.0a1",
+      "equations": "canonical_engine",
+      "registration_note": "Direct API/import execution has no verified author, license or package identity. Use the extension registry to record package provenance.",
+      "scenario_origin": "unregistered; see the explicit scenario and evidence hashes",
+      "schema_version": 1,
+      "unregistered_module": null
+    },
+    "extrapolation": false,
+    "health_structure": "legacy",
+    "healthspan_metric": {
+      "alias": "metabolically_healthy_life_expectancy",
+      "competing_risks": "Death precedes survivor transitions; IR progression/regression compete for the same survivors",
+      "interpretation": "Total remaining healthy-state time, not age at first disease or cohort lifespan",
+      "label": "Period years in the modeled healthy state",
+      "method": "Sullivan prevalence weighting",
+      "method_source": "https://www.cdc.gov/nchs/data/statnt/statnt21.pdf",
+      "multimorbidity": "States are mutually exclusive; other diseases and overlapping diagnoses are not represented",
+      "primary": "healthspan",
+      "states": {
+        "healthy": "Synthetic healthy/normoglycemic proxy; not absence of all disease",
+        "insulin_resistant": "Synthetic IR/prediabetes proxy; not an observed PreChronic state",
+        "t2d": "Modeled T2D stock; entry by IR-to-T2D flow, exit only by mortality"
+      },
+      "unavailable": {
+        "all_chronic_disease_free_years": "Only T2D is modeled; T2D-free time includes the IR proxy",
+        "diagnosed_chronic_disease_years": "No separate diagnosis/ascertainment model",
+        "prechronic_years": "No separate PreChronic state yet",
+        "qaly": "No sourced utility weights or joint-condition valuation",
+        "who_hale": "No all-cause disability weights or comorbidity correction"
+      },
+      "unit": "years per period life-table survivor at the stated age",
+      "version": "healthspan-v1"
+    },
+    "limitations": [
+      "VALIDATION ONLY \u2014 NOT A SCIENTIFIC ESTIMATE: metabolic inputs remain synthetic.",
+      "Closed population: births and migration are zero; this is not a U.S. population forecast.",
+      "Initial adult state fractions are constant across ages/sex; pediatric metabolic disease is omitted.",
+      "The IR state is a synthetic prediabetes proxy; normoglycemia does not establish overall metabolic health.",
+      "Period life expectancy freezes the current mortality schedule; it is not predicted cohort lifespan.",
+      "Metabolically healthy years use a Sullivan prevalence weighting; this is not overall HALE.",
+      "The 100+ tail holds state membership fixed and assumes exponential mortality within states.",
+      "Mortality and population source uncertainty, structural uncertainty, and correlated parameters are not propagated."
+    ],
+    "model_version": "0.1.0a1",
+    "mortality_vintage": 2024,
+    "parameter_status_counts": {
+      "synthetic": 13
+    },
+    "population_vintage": "Census 2025",
+    "scenario": {
+      "allow_extrapolation": false,
+      "baseline_year": 2024,
+      "description": "Synthetic baseline used only to verify model mechanics.",
+      "diet": {},
+      "diet_response": {
+        "kind": "legacy",
+        "shape": "linear"
+      },
+      "exposures": {
+        "fiber": 1.0,
+        "fruit_veg": 1.0,
+        "upf": 1.0
+      },
+      "glp1": null,
+      "health_structure": "legacy",
+      "mode": "validation",
+      "name": "baseline_validation",
+      "sex": "all",
+      "upf_schedule": [],
+      "years": 25
+    },
+    "scientific_blockers": [
+      "National age-specific metabolic transition hazards are unresolved.",
+      "Age-specific T2D/prediabetes initial prevalence is not calibrated; CDC total diabetes includes other types.",
+      "Dietary causal coefficient, dose scale, lag, and supported population are unresolved.",
+      "State mortality hazard ratios remain synthetic.",
+      "No historical end-to-end dietary-effect validation; mortality persistence backtest is a limited benchmark."
+    ],
+    "source_bundle_sha256": "f830711b211e8bdd7e2f9f9707f1b8a86dca245e058a05730be8c0eb48f74ed3",
+    "status": "VALIDATION ONLY \u2014 NOT A SCIENTIFIC ESTIMATE",
+    "synthetic_parameters": [
+      "initial_healthy_share",
+      "initial_ir_share",
+      "initial_t2d_share",
+      "h_to_ir_rate",
+      "ir_to_h_rate",
+      "ir_to_t2d_rate",
+      "mortality_ir_ratio",
+      "mortality_t2d_ratio",
+      "beta_upf_progression",
+      "diet_lag_years",
+      "adult_age",
+      "upf_min_multiplier",
+      "upf_max_multiplier"
+    ],
+    "transition_flows": [
+      "healthy_to_ir",
+      "ir_to_healthy",
+      "ir_to_t2d"
+    ],
+    "unresolved_parameters": []
+  },
+  "outcomes": {
+    "cumulative_deaths": {
+      "absolute_delta": -666544.5215965062,
+      "baseline": 104107560.49215467,
+      "intervention": 103441015.97055817,
+      "relative_delta": -0.0064024602867025745
+    },
+    "healthspan": {
+      "absolute_delta": 1.8159632594970105,
+      "baseline": 47.51640968222859,
+      "intervention": 49.3323729417256,
+      "relative_delta": 0.03821760254281567
+    },
+    "life_expectancy": {
+      "absolute_delta": 0.2464516133906045,
+      "baseline": 77.00660839238566,
+      "intervention": 77.25306000577626,
+      "relative_delta": 0.003200395635330609
+    },
+    "metabolically_healthy_life_expectancy": {
+      "absolute_delta": 1.8159632594970105,
+      "baseline": 47.51640968222859,
+      "intervention": 49.3323729417256,
+      "relative_delta": 0.03821760254281567
+    },
+    "restricted_healthy_years": {
+      "absolute_delta": 0.31486150696695425,
+      "baseline": 13.34514569734189,
+      "intervention": 13.660007204308844,
+      "relative_delta": 0.023593710710080065
+    },
+    "t2d_free_life_expectancy": {
+      "absolute_delta": 1.6724429452906975,
+      "baseline": 61.522617104602006,
+      "intervention": 63.1950600498927,
+      "relative_delta": 0.027184197031917157
+    }
+  },
+  "state_time_deltas": {
+    "healthy": 107054107.89790344,
+    "insulin_resistant": -25906547.143313646,
+    "t2d": -75460599.10687518
+  },
+  "transition_deltas": {
+    "healthy_to_ir": -10012126.611566275,
+    "ir_to_healthy": -422625.29826788977,
+    "ir_to_t2d": -8645177.945664845
+  },
+  "validation_only": true
+}

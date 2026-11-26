@@ -1,0 +1,3463 @@
+{
+  "definition": {
+    "alias": "metabolically_healthy_life_expectancy",
+    "competing_risks": "Death precedes survivor transitions; IR progression/regression compete for the same survivors",
+    "interpretation": "Total remaining healthy-state time, not age at first disease or cohort lifespan",
+    "label": "Period years in the modeled healthy state",
+    "method": "Sullivan prevalence weighting",
+    "method_source": "https://www.cdc.gov/nchs/data/statnt/statnt21.pdf",
+    "multimorbidity": "States are mutually exclusive; other diseases and overlapping diagnoses are not represented",
+    "primary": "healthspan",
+    "states": {
+      "healthy": "Synthetic healthy/normoglycemic proxy; not absence of all disease",
+      "insulin_resistant": "Synthetic IR/prediabetes proxy; not an observed PreChronic state",
+      "t2d": "Modeled T2D stock; entry by IR-to-T2D flow, exit only by mortality"
+    },
+    "unavailable": {
+      "all_chronic_disease_free_years": "Only T2D is modeled; T2D-free time includes the IR proxy",
+      "diagnosed_chronic_disease_years": "No separate diagnosis/ascertainment model",
+      "prechronic_years": "No separate PreChronic state yet",
+      "qaly": "No sourced utility weights or joint-condition valuation",
+      "who_hale": "No all-cause disability weights or comorbidity correction"
+    },
+    "unit": "years per period life-table survivor at the stated age",
+    "version": "healthspan-v1"
+  },
+  "evidence_sha256": "bd335ed92d79a023400eec0da0cbcaf6025f6ee4f3817af85d2aa31cf6ca188f",
+  "metadata": {
+    "active_parameters": [
+      "initial_healthy_share",
+      "initial_ir_share",
+      "initial_t2d_share",
+      "h_to_ir_rate",
+      "ir_to_h_rate",
+      "ir_to_t2d_rate",
+      "mortality_ir_ratio",
+      "mortality_t2d_ratio",
+      "beta_upf_progression",
+      "diet_lag_years",
+      "adult_age",
+      "upf_min_multiplier",
+      "upf_max_multiplier"
+    ],
+    "diet_response": {
+      "initialization": "Zero deviation and no pre-run exposure history; shared adult response, not individual lifetime dose",
+      "kind": "legacy",
+      "limitations": [
+        "All response parameters remain synthetic; no clinical dose range, saturation or timing is established.",
+        "Cumulative exposure is reported; only bounded fading memory affects hazards, avoiding an assumed irreversible dose effect.",
+        "Age-dependent response and clinical T2D remission/relapse are unresolved; only existing H/IR or H/PreChronic/prediabetes reversals are modified.",
+        "Recovery and progression have independent amplitudes and lags; observation/diagnosis delay is not separately identified."
+      ],
+      "role": "canonical_hazard_modifiers",
+      "shape": "linear",
+      "timing": "End-of-year response modifies year-end competing transition hazards; annual health operator order is unchanged",
+      "units": {
+        "cumulative_exposure_years": "relative_exposure * years",
+        "fast_response": "log_multiplier",
+        "recovery_response": "relative_exposure",
+        "retained_exposure": "relative_exposure"
+      }
+    },
+    "dietary_exposures": {
+      "annual_upf": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "baseline_bundle_sha256": null,
+      "baseline_definition_sha256": null,
+      "changes": {},
+      "limitations": [
+        "Observed baselines do not establish causal effects; effect and lag remain synthetic.",
+        "Reference means are held fixed; sampling SEs and descriptive intake distributions are retained, not sampled as independent causal parameters.",
+        "Absolute changes are targets, not a mass-balanced food substitution or energy-balance model.",
+        "Context-only targets do not alter health; absence of an implemented effect is not evidence of no effect.",
+        "Adult survey references do not initialize individual diets: UPF is 19+, nutrients 20+, and the engine adult threshold is separately registered; age, period and population transport remain unresolved."
+      ],
+      "ontology_sha256": "9681a4bc70d219b3e1db692f3b1e15bc313e9728d7a29905d970536736e31800",
+      "reference_uncertainty_propagated": false,
+      "schedule": [],
+      "upf_multiplier": 1.0
+    },
+    "evidence_sha256": "bd335ed92d79a023400eec0da0cbcaf6025f6ee4f3817af85d2aa31cf6ca188f",
+    "extension_provenance": {
+      "active_packages": [],
+      "core_model_version": "0.1.0a1",
+      "equations": "canonical_engine",
+      "registration_note": "Direct API/import execution has no verified author, license or package identity. Use the extension registry to record package provenance.",
+      "scenario_origin": "unregistered; see the explicit scenario and evidence hashes",
+      "schema_version": 1,
+      "unregistered_module": null
+    },
+    "extrapolation": false,
+    "health_structure": "legacy",
+    "healthspan_metric": {
+      "alias": "metabolically_healthy_life_expectancy",
+      "competing_risks": "Death precedes survivor transitions; IR progression/regression compete for the same survivors",
+      "interpretation": "Total remaining healthy-state time, not age at first disease or cohort lifespan",
+      "label": "Period years in the modeled healthy state",
+      "method": "Sullivan prevalence weighting",
+      "method_source": "https://www.cdc.gov/nchs/data/statnt/statnt21.pdf",
+      "multimorbidity": "States are mutually exclusive; other diseases and overlapping diagnoses are not represented",
+      "primary": "healthspan",
+      "states": {
+        "healthy": "Synthetic healthy/normoglycemic proxy; not absence of all disease",
+        "insulin_resistant": "Synthetic IR/prediabetes proxy; not an observed PreChronic state",
+        "t2d": "Modeled T2D stock; entry by IR-to-T2D flow, exit only by mortality"
+      },
+      "unavailable": {
+        "all_chronic_disease_free_years": "Only T2D is modeled; T2D-free time includes the IR proxy",
+        "diagnosed_chronic_disease_years": "No separate diagnosis/ascertainment model",
+        "prechronic_years": "No separate PreChronic state yet",
+        "qaly": "No sourced utility weights or joint-condition valuation",
+        "who_hale": "No all-cause disability weights or comorbidity correction"
+      },
+      "unit": "years per period life-table survivor at the stated age",
+      "version": "healthspan-v1"
+    },
+    "limitations": [
+      "VALIDATION ONLY \u2014 NOT A SCIENTIFIC ESTIMATE: metabolic inputs remain synthetic.",
+      "Closed population: births and migration are zero; this is not a U.S. population forecast.",
+      "Initial adult state fractions are constant across ages/sex; pediatric metabolic disease is omitted.",
+      "The IR state is a synthetic prediabetes proxy; normoglycemia does not establish overall metabolic health.",
+      "Period life expectancy freezes the current mortality schedule; it is not predicted cohort lifespan.",
+      "Metabolically healthy years use a Sullivan prevalence weighting; this is not overall HALE.",
+      "The 100+ tail holds state membership fixed and assumes exponential mortality within states.",
+      "Mortality and population source uncertainty, structural uncertainty, and correlated parameters are not propagated."
+    ],
+    "model_version": "0.1.0a1",
+    "mortality_vintage": 2024,
+    "parameter_status_counts": {
+      "synthetic": 13
+    },
+    "population_vintage": "Census 2025",
+    "scenario": {
+      "allow_extrapolation": false,
+      "baseline_year": 2024,
+      "description": "Synthetic baseline used only to verify model mechanics.",
+      "diet": {},
+      "diet_response": {
+        "kind": "legacy",
+        "shape": "linear"
+      },
+      "exposures": {
+        "fiber": 1.0,
+        "fruit_veg": 1.0,
+        "upf": 1.0
+      },
+      "glp1": null,
+      "health_structure": "legacy",
+      "mode": "validation",
+      "name": "baseline_validation",
+      "sex": "all",
+      "upf_schedule": [],
+      "years": 25
+    },
+    "scientific_blockers": [
+      "National age-specific metabolic transition hazards are unresolved.",
+      "Age-specific T2D/prediabetes initial prevalence is not calibrated; CDC total diabetes includes other types.",
+      "Dietary causal coefficient, dose scale, lag, and supported population are unresolved.",
+      "State mortality hazard ratios remain synthetic.",
+      "No historical end-to-end dietary-effect validation; mortality persistence backtest is a limited benchmark."
+    ],
+    "source_bundle_sha256": "f830711b211e8bdd7e2f9f9707f1b8a86dca245e058a05730be8c0eb48f74ed3",
+    "status": "VALIDATION ONLY \u2014 NOT A SCIENTIFIC ESTIMATE",
+    "synthetic_parameters": [
+      "initial_healthy_share",
+      "initial_ir_share",
+      "initial_t2d_share",
+      "h_to_ir_rate",
+      "ir_to_h_rate",
+      "ir_to_t2d_rate",
+      "mortality_ir_ratio",
+      "mortality_t2d_ratio",
+      "beta_upf_progression",
+      "diet_lag_years",
+      "adult_age",
+      "upf_min_multiplier",
+      "upf_max_multiplier"
+    ],
+    "transition_flows": [
+      "healthy_to_ir",
+      "ir_to_healthy",
+      "ir_to_t2d"
+    ],
+    "unresolved_parameters": []
+  },
+  "period_by_age": [
+    {
+      "age": 0,
+      "healthspan": 47.51640968222859,
+      "life_expectancy": 77.00660839238566,
+      "state_years": {
+        "healthy": 47.51640968222859,
+        "insulin_resistant": 14.00620742237341,
+        "t2d": 15.483991287783622
+      }
+    },
+    {
+      "age": 1,
+      "healthspan": 46.78001479014254,
+      "life_expectancy": 76.4342432718637,
+      "state_years": {
+        "healthy": 46.78001479014254,
+        "insulin_resistant": 14.084112458773863,
+        "t2d": 15.570116022947273
+      }
+    },
+    {
+      "age": 2,
+      "healthspan": 45.79856548764124,
+      "life_expectancy": 75.4646804596897,
+      "state_years": {
+        "healthy": 45.79856548764124,
+        "insulin_resistant": 14.089757881874744,
+        "t2d": 15.57635709017367
+      }
+    },
+    {
+      "age": 3,
+      "healthspan": 44.81034428746857,
+      "life_expectancy": 74.4841732105786,
+      "state_years": {
+        "healthy": 44.81034428746857,
+        "insulin_resistant": 14.093421580436987,
+        "t2d": 15.580407342673015
+      }
+    },
+    {
+      "age": 4,
+      "healthspan": 43.81944861688015,
+      "life_expectancy": 73.49937457440808,
+      "state_years": {
+        "healthy": 43.81944861688015,
+        "insulin_resistant": 14.09631733334654,
+        "t2d": 15.583608624181348
+      }
+    },
+    {
+      "age": 5,
+      "healthspan": 42.82664072461268,
+      "life_expectancy": 72.51149432155707,
+      "state_years": {
+        "healthy": 42.82664072461268,
+        "insulin_resistant": 14.098657688542106,
+        "t2d": 15.586195908402239
+      }
+    },
+    {
+      "age": 6,
+      "healthspan": 41.83291032419464,
+      "life_expectancy": 71.52216094602998,
+      "state_years": {
+        "healthy": 41.83291032419464,
+        "insulin_resistant": 14.100746031291822,
+        "t2d": 15.588504590543478
+      }
+    },
+    {
+      "age": 7,
+      "healthspan": 40.83850966031223,
+      "life_expectancy": 70.53178226525077,
+      "state_years": {
+        "healthy": 40.83850966031223,
+        "insulin_resistant": 14.102656250010465,
+        "t2d": 15.59061635492803
+      }
+    },
+    {
+      "age": 8,
+      "healthspan": 39.843574047710845,
+      "life_expectancy": 69.5405745547568,
+      "state_years": {
+        "healthy": 39.843574047710845,
+        "insulin_resistant": 14.104426796580194,
+        "t2d": 15.592573710465727
+      }
+    },
+    {
+      "age": 9,
+      "healthspan": 38.84809277170115,
+      "life_expectancy": 68.54850405703334,
+      "state_years": {
+        "healthy": 38.84809277170115,
+        "insulin_resistant": 14.106046726938015,
+        "t2d": 15.594364558394142
+      }
+    },
+    {
+      "age": 10,
+      "healthspan": 37.852081216713124,
+      "life_expectancy": 67.55558152469914,
+      "state_years": {
+        "healthy": 37.852081216713124,
+        "insulin_resistant": 14.107513841230698,
+        "t2d": 15.595986466755273
+      }
+    },
+    {
+      "age": 11,
+      "healthspan": 36.85573976893775,
+      "life_expectancy": 66.56214942366977,
+      "state_years": {
+        "healthy": 36.85573976893775,
+        "insulin_resistant": 14.108895619440764,
+        "t2d": 15.597514035291216
+      }
+    },
+    {
+      "age": 12,
+      "healthspan": 35.859572677327115,
+      "life_expectancy": 65.5691141998501,
+      "state_years": {
+        "healthy": 35.859572677327115,
+        "insulin_resistant": 14.11038308279531,
+        "t2d": 15.599158439727631
+      }
+    },
+    {
+      "age": 13,
+      "healthspan": 34.86440142252386,
+      "life_expectancy": 64.5780000764073,
+      "state_years": {
+        "healthy": 34.86440142252386,
+        "insulin_resistant": 14.112309994985122,
+        "t2d": 15.601288658898289
+      }
+    },
+    {
+      "age": 14,
+      "healthspan": 33.87113352603239,
+      "life_expectancy": 63.59055318299445,
+      "state_years": {
+        "healthy": 33.87113352603239,
+        "insulin_resistant": 14.115074648330685,
+        "t2d": 15.604345008631343
+      }
+    },
+    {
+      "age": 15,
+      "healthspan": 32.880284272092915,
+      "life_expectancy": 62.60785332918149,
+      "state_years": {
+        "healthy": 32.880284272092915,
+        "insulin_resistant": 14.11894516102752,
+        "t2d": 15.60862389606102
+      }
+    },
+    {
+      "age": 16,
+      "healthspan": 31.891904685333575,
+      "life_expectancy": 61.63014221384521,
+      "state_years": {
+        "healthy": 31.891904685333575,
+        "insulin_resistant": 14.124012092759646,
+        "t2d": 15.614225435751965
+      }
+    },
+    {
+      "age": 17,
+      "healthspan": 30.905706809231766,
+      "life_expectancy": 60.65701940666275,
+      "state_years": {
+        "healthy": 30.905706809231766,
+        "insulin_resistant": 14.13022202471521,
+        "t2d": 15.621090572715742
+      }
+    },
+    {
+      "age": 18,
+      "healthspan": 29.92138039373533,
+      "life_expectancy": 59.688029282224,
+      "state_years": {
+        "healthy": 29.92138039373533,
+        "insulin_resistant": 14.137505911668807,
+        "t2d": 15.629142976819836
+      }
+    },
+    {
+      "age": 19,
+      "healthspan": 29.238637362293513,
+      "life_expectancy": 58.72256963677338,
+      "state_years": {
+        "healthy": 29.238637362293513,
+        "insulin_resistant": 13.945697778125739,
+        "t2d": 15.538234496354102
+      }
+    },
+    {
+      "age": 20,
+      "healthspan": 28.557310171664014,
+      "life_expectancy": 57.760203092430196,
+      "state_years": {
+        "healthy": 28.557310171664014,
+        "insulin_resistant": 13.754647254488372,
+        "t2d": 15.448245666277781
+      }
+    },
+    {
+      "age": 21,
+      "healthspan": 27.877452719100546,
+      "life_expectancy": 56.8010920070894,
+      "state_years": {
+        "healthy": 27.877452719100546,
+        "insulin_resistant": 13.564397895688723,
+        "t2d": 15.3592413923001
+      }
+    },
+    {
+      "age": 22,
+      "healthspan": 27.19902340449629,
+      "life_expectancy": 55.84520989664487,
+      "state_years": {
+        "healthy": 27.19902340449629,
+        "insulin_resistant": 13.374948682424932,
+        "t2d": 15.271237809723619
+      }
+    },
+    {
+      "age": 23,
+      "healthspan": 26.52161979365961,
+      "life_expectancy": 54.89178891689749,
+      "state_years": {
+        "healthy": 26.52161979365961,
+        "insulin_resistant": 13.18612099481738,
+        "t2d": 15.184048128420471
+      }
+    },
+    {
+      "age": 24,
+      "healthspan": 25.844748239640857,
+      "life_expectancy": 53.93985613617227,
+      "state_years": {
+        "healthy": 25.844748239640857,
+        "insulin_resistant": 12.997685485619277,
+        "t2d": 15.097422410912111
+      }
+    },
+    {
+      "age": 25,
+      "healthspan": 25.168093691063294,
+      "life_expectancy": 52.988790823030534,
+      "state_years": {
+        "healthy": 25.168093691063294,
+        "insulin_resistant": 12.809495850353427,
+        "t2d": 15.011201281613786
+      }
+    },
+    {
+      "age": 26,
+      "healthspan": 24.39598728669936,
+      "life_expectancy": 52.03499389137181,
+      "state_years": {
+        "healthy": 24.39598728669936,
+        "insulin_resistant": 12.6439882262031,
+        "t2d": 14.995018378469334
+      }
+    },
+    {
+      "age": 27,
+      "healthspan": 23.648108011296557,
+      "life_expectancy": 51.08261962706066,
+      "state_years": {
+        "healthy": 23.648108011296557,
+        "insulin_resistant": 12.463546433877005,
+        "t2d": 14.970965181887081
+      }
+    },
+    {
+      "age": 28,
+      "healthspan": 22.92365534515324,
+      "life_expectancy": 50.132385489265715,
+      "state_years": {
+        "healthy": 22.92365534515324,
+        "insulin_resistant": 12.270195210587204,
+        "t2d": 14.93853493352526
+      }
+    },
+    {
+      "age": 29,
+      "healthspan": 22.221983985145666,
+      "life_expectancy": 49.18521420981651,
+      "state_years": {
+        "healthy": 22.221983985145666,
+        "insulin_resistant": 12.065846633020563,
+        "t2d": 14.897383591650268
+      }
+    },
+    {
+      "age": 30,
+      "healthspan": 21.542331796787018,
+      "life_expectancy": 48.241649834040246,
+      "state_years": {
+        "healthy": 21.542331796787018,
+        "insulin_resistant": 11.852170080425918,
+        "t2d": 14.8471479568273
+      }
+    },
+    {
+      "age": 31,
+      "healthspan": 20.88377473071409,
+      "life_expectancy": 47.301747291695186,
+      "state_years": {
+        "healthy": 20.88377473071409,
+        "insulin_resistant": 11.630575986511033,
+        "t2d": 14.787396574470048
+      }
+    },
+    {
+      "age": 32,
+      "healthspan": 20.24529559749718,
+      "life_expectancy": 46.36521496722093,
+      "state_years": {
+        "healthy": 20.24529559749718,
+        "insulin_resistant": 11.402261451605153,
+        "t2d": 14.717657918118581
+      }
+    },
+    {
+      "age": 33,
+      "healthspan": 19.625963344881868,
+      "life_expectancy": 45.431820853298376,
+      "state_years": {
+        "healthy": 19.625963344881868,
+        "insulin_resistant": 11.168320670288344,
+        "t2d": 14.637536838128153
+      }
+    },
+    {
+      "age": 34,
+      "healthspan": 19.02490681689326,
+      "life_expectancy": 44.501344469635306,
+      "state_years": {
+        "healthy": 19.02490681689326,
+        "insulin_resistant": 10.929743297535943,
+        "t2d": 14.546694355206094
+      }
+    },
+    {
+      "age": 35,
+      "healthspan": 18.44137997435285,
+      "life_expectancy": 43.57374004550734,
+      "state_years": {
+        "healthy": 18.44137997435285,
+        "insulin_resistant": 10.687463787359953,
+        "t2d": 14.444896283794536
+      }
+    },
+    {
+      "age": 36,
+      "healthspan": 17.874735308093733,
+      "life_expectancy": 42.6490899710635,
+      "state_years": {
+        "healthy": 17.874735308093733,
+        "insulin_resistant": 10.442358301577697,
+        "t2d": 14.331996361392067
+      }
+    },
+    {
+      "age": 37,
+      "healthspan": 17.324414851047433,
+      "life_expectancy": 41.727596649614675,
+      "state_years": {
+        "healthy": 17.324414851047433,
+        "insulin_resistant": 10.195250184850476,
+        "t2d": 14.207931613716765
+      }
+    },
+    {
+      "age": 38,
+      "healthspan": 16.78991486124615,
+      "life_expectancy": 40.80950901156729,
+      "state_years": {
+        "healthy": 16.78991486124615,
+        "insulin_resistant": 9.946898748794629,
+        "t2d": 14.072695401526508
+      }
+    },
+    {
+      "age": 39,
+      "healthspan": 16.27075617155472,
+      "life_expectancy": 39.895058382963214,
+      "state_years": {
+        "healthy": 16.27075617155472,
+        "insulin_resistant": 9.697989844562974,
+        "t2d": 13.926312366845519
+      }
+    },
+    {
+      "age": 40,
+      "healthspan": 15.76644161002097,
+      "life_expectancy": 38.98435842081733,
+      "state_years": {
+        "healthy": 15.76644161002097,
+        "insulin_resistant": 9.449117383374208,
+        "t2d": 13.768799427422143
+      }
+    },
+    {
+      "age": 41,
+      "healthspan": 15.27660470922898,
+      "life_expectancy": 38.07777467441334,
+      "state_years": {
+        "healthy": 15.27660470922898,
+        "insulin_resistant": 9.200878425975548,
+        "t2d": 13.600291539208811
+      }
+    },
+    {
+      "age": 42,
+      "healthspan": 14.800771617767097,
+      "life_expectancy": 37.175343512612024,
+      "state_years": {
+        "healthy": 14.800771617767097,
+        "insulin_resistant": 8.95373718877572,
+        "t2d": 13.420834706069199
+      }
+    },
+    {
+      "age": 43,
+      "healthspan": 14.338268727669641,
+      "life_expectancy": 36.27653096781557,
+      "state_years": {
+        "healthy": 14.338268727669641,
+        "insulin_resistant": 8.707972561094357,
+        "t2d": 13.230289679051563
+      }
+    },
+    {
+      "age": 44,
+      "healthspan": 14.00819580569903,
+      "life_expectancy": 35.391676297423935,
+      "state_years": {
+        "healthy": 14.00819580569903,
+        "insulin_resistant": 8.50051055987416,
+        "t2d": 12.882969931850742
+      }
+    },
+    {
+      "age": 45,
+      "healthspan": 13.678787233745613,
+      "life_expectancy": 34.5088374960047,
+      "state_years": {
+        "healthy": 13.678787233745613,
+        "insulin_resistant": 8.293484711385123,
+        "t2d": 12.536565550873963
+      }
+    },
+    {
+      "age": 46,
+      "healthspan": 13.350203135431386,
+      "life_expectancy": 33.62841761109467,
+      "state_years": {
+        "healthy": 13.350203135431386,
+        "insulin_resistant": 8.086991431196369,
+        "t2d": 12.19122304446691
+      }
+    },
+    {
+      "age": 47,
+      "healthspan": 13.022839988242232,
+      "life_expectancy": 32.75141612516366,
+      "state_years": {
+        "healthy": 13.022839988242232,
+        "insulin_resistant": 7.8812705125944476,
+        "t2d": 11.847305624326976
+      }
+    },
+    {
+      "age": 48,
+      "healthspan": 12.697126152812118,
+      "life_expectancy": 31.878916795891108,
+      "state_years": {
+        "healthy": 12.697126152812118,
+        "insulin_resistant": 7.676581657374062,
+        "t2d": 11.505208985704925
+      }
+    },
+    {
+      "age": 49,
+      "healthspan": 12.37346681387418,
+      "life_expectancy": 31.01195101715013,
+      "state_years": {
+        "healthy": 12.37346681387418,
+        "insulin_resistant": 7.47317125023395,
+        "t2d": 11.165312953042001
+      }
+    },
+    {
+      "age": 50,
+      "healthspan": 12.052101948835809,
+      "life_expectancy": 30.151142333933663,
+      "state_years": {
+        "healthy": 12.052101948835809,
+        "insulin_resistant": 7.271186557869719,
+        "t2d": 10.827853827228134
+      }
+    },
+    {
+      "age": 51,
+      "healthspan": 11.733240005099546,
+      "life_expectancy": 29.29703907427456,
+      "state_years": {
+        "healthy": 11.733240005099546,
+        "insulin_resistant": 7.070756109969102,
+        "t2d": 10.493042959205912
+      }
+    },
+    {
+      "age": 52,
+      "healthspan": 11.416973933187435,
+      "life_expectancy": 28.449904072374572,
+      "state_years": {
+        "healthy": 11.416973933187435,
+        "insulin_resistant": 6.871939036547138,
+        "t2d": 10.160991102639999
+      }
+    },
+    {
+      "age": 53,
+      "healthspan": 11.103274082721057,
+      "life_expectancy": 27.609695349458903,
+      "state_years": {
+        "healthy": 11.103274082721057,
+        "insulin_resistant": 6.674720629142508,
+        "t2d": 9.831700637595338
+      }
+    },
+    {
+      "age": 54,
+      "healthspan": 10.7921524420334,
+      "life_expectancy": 26.776472862711596,
+      "state_years": {
+        "healthy": 10.7921524420334,
+        "insulin_resistant": 6.479110878134193,
+        "t2d": 9.505209542544003
+      }
+    },
+    {
+      "age": 55,
+      "healthspan": 10.483792006838115,
+      "life_expectancy": 25.950718975993937,
+      "state_years": {
+        "healthy": 10.483792006838115,
+        "insulin_resistant": 6.285222113263934,
+        "t2d": 9.181704855891885
+      }
+    },
+    {
+      "age": 56,
+      "healthspan": 10.178148278501887,
+      "life_expectancy": 25.132354637293055,
+      "state_years": {
+        "healthy": 10.178148278501887,
+        "insulin_resistant": 6.093030416811225,
+        "t2d": 8.861175941979946
+      }
+    },
+    {
+      "age": 57,
+      "healthspan": 9.875547204748706,
+      "life_expectancy": 24.322214446489884,
+      "state_years": {
+        "healthy": 9.875547204748706,
+        "insulin_resistant": 5.902733217982635,
+        "t2d": 8.543934023758544
+      }
+    },
+    {
+      "age": 58,
+      "healthspan": 9.576860059460817,
+      "life_expectancy": 23.52247831634726,
+      "state_years": {
+        "healthy": 9.576860059460817,
+        "insulin_resistant": 5.714853950056428,
+        "t2d": 8.230764306830016
+      }
+    },
+    {
+      "age": 59,
+      "healthspan": 9.282924916297196,
+      "life_expectancy": 22.735253211733617,
+      "state_years": {
+        "healthy": 9.282924916297196,
+        "insulin_resistant": 5.529897258016768,
+        "t2d": 7.922431037419655
+      }
+    },
+    {
+      "age": 60,
+      "healthspan": 8.993963766356186,
+      "life_expectancy": 21.96114758822477,
+      "state_years": {
+        "healthy": 8.993963766356186,
+        "insulin_resistant": 5.348001938587805,
+        "t2d": 7.619181883280777
+      }
+    },
+    {
+      "age": 61,
+      "healthspan": 8.70958606923534,
+      "life_expectancy": 21.199279294589484,
+      "state_years": {
+        "healthy": 8.70958606923534,
+        "insulin_resistant": 5.168942775565618,
+        "t2d": 7.320750449788524
+      }
+    },
+    {
+      "age": 62,
+      "healthspan": 8.429142657368027,
+      "life_expectancy": 20.448135491004518,
+      "state_years": {
+        "healthy": 8.429142657368027,
+        "insulin_resistant": 4.99234027739719,
+        "t2d": 7.026652556239299
+      }
+    },
+    {
+      "age": 63,
+      "healthspan": 8.152187286771705,
+      "life_expectancy": 19.706690478122837,
+      "state_years": {
+        "healthy": 8.152187286771705,
+        "insulin_resistant": 4.817933825658206,
+        "t2d": 6.73656936569293
+      }
+    },
+    {
+      "age": 64,
+      "healthspan": 7.878439144110485,
+      "life_expectancy": 18.974315076402377,
+      "state_years": {
+        "healthy": 7.878439144110485,
+        "insulin_resistant": 4.645559652413799,
+        "t2d": 6.450316279878097
+      }
+    },
+    {
+      "age": 65,
+      "healthspan": 7.607800379509605,
+      "life_expectancy": 18.250818666309513,
+      "state_years": {
+        "healthy": 7.607800379509605,
+        "insulin_resistant": 4.475161222901195,
+        "t2d": 6.1678570638987145
+      }
+    },
+    {
+      "age": 66,
+      "healthspan": 7.340334743267017,
+      "life_expectancy": 17.536397903892986,
+      "state_years": {
+        "healthy": 7.340334743267017,
+        "insulin_resistant": 4.306776679894523,
+        "t2d": 5.889286480731446
+      }
+    },
+    {
+      "age": 67,
+      "healthspan": 7.076997157139162,
+      "life_expectancy": 16.833374936721345,
+      "state_years": {
+        "healthy": 7.076997157139162,
+        "insulin_resistant": 4.140966228723108,
+        "t2d": 5.6154115508590765
+      }
+    },
+    {
+      "age": 68,
+      "healthspan": 6.816397851732209,
+      "life_expectancy": 16.138514766832145,
+      "state_years": {
+        "healthy": 6.816397851732209,
+        "insulin_resistant": 3.976920876441588,
+        "t2d": 5.345196038658349
+      }
+    },
+    {
+      "age": 69,
+      "healthspan": 6.55857269641287,
+      "life_expectancy": 15.451944756192106,
+      "state_years": {
+        "healthy": 6.55857269641287,
+        "insulin_resistant": 3.8146605327236274,
+        "t2d": 5.078711527055612
+      }
+    },
+    {
+      "age": 70,
+      "healthspan": 6.303147710686524,
+      "life_expectancy": 14.772832198204489,
+      "state_years": {
+        "healthy": 6.303147710686524,
+        "insulin_resistant": 3.6539670294546585,
+        "t2d": 4.81571745806331
+      }
+    },
+    {
+      "age": 71,
+      "healthspan": 6.049510563409685,
+      "life_expectancy": 14.099787301329265,
+      "state_years": {
+        "healthy": 6.049510563409685,
+        "insulin_resistant": 3.4944837176181722,
+        "t2d": 4.555793020301411
+      }
+    },
+    {
+      "age": 72,
+      "healthspan": 5.798627241368062,
+      "life_expectancy": 13.43508598534705,
+      "state_years": {
+        "healthy": 5.798627241368062,
+        "insulin_resistant": 3.3367631648830427,
+        "t2d": 4.299695579095947
+      }
+    },
+    {
+      "age": 73,
+      "healthspan": 5.551491077206845,
+      "life_expectancy": 12.781068544886985,
+      "state_years": {
+        "healthy": 5.551491077206845,
+        "insulin_resistant": 3.1813735403755556,
+        "t2d": 4.048203927304587
+      }
+    },
+    {
+      "age": 74,
+      "healthspan": 5.308050629815725,
+      "life_expectancy": 12.137677965528518,
+      "state_years": {
+        "healthy": 5.308050629815725,
+        "insulin_resistant": 3.028284951482668,
+        "t2d": 3.8013423842301295
+      }
+    },
+    {
+      "age": 75,
+      "healthspan": 5.069682551903511,
+      "life_expectancy": 11.508108934367991,
+      "state_years": {
+        "healthy": 5.069682551903511,
+        "insulin_resistant": 2.8782789793530363,
+        "t2d": 3.5601474031114466
+      }
+    },
+    {
+      "age": 76,
+      "healthspan": 4.836688037379598,
+      "life_expectancy": 10.893121923287056,
+      "state_years": {
+        "healthy": 4.836688037379598,
+        "insulin_resistant": 2.7315264062973355,
+        "t2d": 3.324907479610126
+      }
+    },
+    {
+      "age": 77,
+      "healthspan": 4.609503884712665,
+      "life_expectancy": 10.293779012817861,
+      "state_years": {
+        "healthy": 4.609503884712665,
+        "insulin_resistant": 2.588272167998914,
+        "t2d": 3.096002960106286
+      }
+    },
+    {
+      "age": 78,
+      "healthspan": 4.38444441829909,
+      "life_expectancy": 9.701973480630222,
+      "state_years": {
+        "healthy": 4.38444441829909,
+        "insulin_resistant": 2.4464507156849695,
+        "t2d": 2.8710783466461667
+      }
+    },
+    {
+      "age": 79,
+      "healthspan": 4.171832448155929,
+      "life_expectancy": 9.140463127692357,
+      "state_years": {
+        "healthy": 4.171832448155929,
+        "insulin_resistant": 2.3117880402058506,
+        "t2d": 2.6568426393305815
+      }
+    },
+    {
+      "age": 80,
+      "healthspan": 3.963993736598365,
+      "life_expectancy": 8.59270069962819,
+      "state_years": {
+        "healthy": 3.963993736598365,
+        "insulin_resistant": 2.1800545826219575,
+        "t2d": 2.44865238040787
+      }
+    },
+    {
+      "age": 81,
+      "healthspan": 3.766034622576904,
+      "life_expectancy": 8.069754016556626,
+      "state_years": {
+        "healthy": 3.766034622576904,
+        "insulin_resistant": 2.054032026268941,
+        "t2d": 2.2496873677107825
+      }
+    },
+    {
+      "age": 82,
+      "healthspan": 3.574761646250042,
+      "life_expectancy": 7.564950149063204,
+      "state_years": {
+        "healthy": 3.574761646250042,
+        "insulin_resistant": 1.9319782450865244,
+        "t2d": 2.0582102577266386
+      }
+    },
+    {
+      "age": 83,
+      "healthspan": 3.3943494120346775,
+      "life_expectancy": 7.087142794357866,
+      "state_years": {
+        "healthy": 3.3943494120346775,
+        "insulin_resistant": 1.816118402517443,
+        "t2d": 1.876674979805746
+      }
+    },
+    {
+      "age": 84,
+      "healthspan": 3.2197206709064266,
+      "life_expectancy": 6.625926209754487,
+      "state_years": {
+        "healthy": 3.2197206709064266,
+        "insulin_resistant": 1.7037334762388632,
+        "t2d": 1.7024720626091978
+      }
+    },
+    {
+      "age": 85,
+      "healthspan": 3.0536239318306158,
+      "life_expectancy": 6.1869591159334885,
+      "state_years": {
+        "healthy": 3.0536239318306158,
+        "insulin_resistant": 1.5962371282033048,
+        "t2d": 1.5370980558995675
+      }
+    },
+    {
+      "age": 86,
+      "healthspan": 2.89300287979521,
+      "life_expectancy": 5.764163221626129,
+      "state_years": {
+        "healthy": 2.89300287979521,
+        "insulin_resistant": 1.4920081449884266,
+        "t2d": 1.379152196842492
+      }
+    },
+    {
+      "age": 87,
+      "healthspan": 2.7431185521990384,
+      "life_expectancy": 5.3679431858802475,
+      "state_years": {
+        "healthy": 2.7431185521990384,
+        "insulin_resistant": 1.393694021936402,
+        "t2d": 1.231130611744807
+      }
+    },
+    {
+      "age": 88,
+      "healthspan": 2.6037090437157104,
+      "life_expectancy": 4.997841800246461,
+      "state_years": {
+        "healthy": 2.6037090437157104,
+        "insulin_resistant": 1.3011151746251794,
+        "t2d": 1.0930175819055712
+      }
+    },
+    {
+      "age": 89,
+      "healthspan": 2.4744289409978752,
+      "life_expectancy": 4.653238386922109,
+      "state_years": {
+        "healthy": 2.4744289409978752,
+        "insulin_resistant": 1.2140473610425024,
+        "t2d": 0.9647620848817302
+      }
+    },
+    {
+      "age": 90,
+      "healthspan": 2.354849133244527,
+      "life_expectancy": 4.333354296051491,
+      "state_years": {
+        "healthy": 2.354849133244527,
+        "insulin_resistant": 1.1322257764710777,
+        "t2d": 0.8462793863358856
+      }
+    },
+    {
+      "age": 91,
+      "healthspan": 2.244459788189165,
+      "life_expectancy": 4.037263660905404,
+      "state_years": {
+        "healthy": 2.244459788189165,
+        "insulin_resistant": 1.0553516432202996,
+        "t2d": 0.7374522294959389
+      }
+    },
+    {
+      "age": 92,
+      "healthspan": 2.1426766029735025,
+      "life_expectancy": 3.7639081676935557,
+      "state_years": {
+        "healthy": 2.1426766029735025,
+        "insulin_resistant": 0.9831010924250682,
+        "t2d": 0.6381304722949849
+      }
+    },
+    {
+      "age": 93,
+      "healthspan": 2.0488553890086556,
+      "life_expectancy": 3.512118877488928,
+      "state_years": {
+        "healthy": 2.0488553890086556,
+        "insulin_resistant": 0.9151377579697603,
+        "t2d": 0.5481257305105118
+      }
+    },
+    {
+      "age": 94,
+      "healthspan": 1.9622983367583353,
+      "life_expectancy": 3.2806355317201,
+      "state_years": {
+        "healthy": 1.9622983367583353,
+        "insulin_resistant": 0.8511229869080835,
+        "t2d": 0.46721420805368125
+      }
+    },
+    {
+      "age": 95,
+      "healthspan": 1.8822817223080983,
+      "life_expectancy": 3.0681362905720464,
+      "state_years": {
+        "healthy": 1.8822817223080983,
+        "insulin_resistant": 0.7907323678518239,
+        "t2d": 0.3951222004121245
+      }
+    },
+    {
+      "age": 96,
+      "healthspan": 1.8080810001631984,
+      "life_expectancy": 2.8732647983800392,
+      "state_years": {
+        "healthy": 1.8080810001631984,
+        "insulin_resistant": 0.733669064319913,
+        "t2d": 0.33151473389692765
+      }
+    },
+    {
+      "age": 97,
+      "healthspan": 1.7389987049496445,
+      "life_expectancy": 2.694653750591609,
+      "state_years": {
+        "healthy": 1.7389987049496445,
+        "insulin_resistant": 0.6796738095828952,
+        "t2d": 0.27598123605906905
+      }
+    },
+    {
+      "age": 98,
+      "healthspan": 1.674396331117657,
+      "life_expectancy": 2.5309408418275203,
+      "state_years": {
+        "healthy": 1.674396331117657,
+        "insulin_resistant": 0.6285286683949979,
+        "t2d": 0.22801584231486566
+      }
+    },
+    {
+      "age": 99,
+      "healthspan": 1.6137097914088703,
+      "life_expectancy": 2.3807596387582786,
+      "state_years": {
+        "healthy": 1.6137097914088703,
+        "insulin_resistant": 0.5800463052616159,
+        "t2d": 0.1870035420877925
+      }
+    },
+    {
+      "age": 100,
+      "healthspan": 1.5564439626743907,
+      "life_expectancy": 2.242693170663363,
+      "state_years": {
+        "healthy": 1.5564439626743907,
+        "insulin_resistant": 0.5340406284515219,
+        "t2d": 0.15220857953745082
+      }
+    }
+  ],
+  "restricted_cohort": {
+    "by_initial_age": [
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 779365.4883370664,
+          "ir_to_healthy": 42031.14746965183,
+          "ir_to_t2d": 105077.86867412958
+        },
+        "deaths": 50746.56195130851,
+        "initial_age": 0,
+        "initial_age_is_open": false,
+        "initial_population": 3617221.0,
+        "remaining_population": 3566474.4380486915,
+        "state_person_years": {
+          "healthy": 87324757.32583047,
+          "insulin_resistant": 2176990.441004241,
+          "t2d": 187211.63219225185
+        },
+        "state_years_per_initial_person": {
+          "healthy": 24.14139399440357,
+          "insulin_resistant": 0.6018405955854621,
+          "t2d": 0.05175565225134208
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 901797.9094003406,
+          "ir_to_healthy": 55744.631770981476,
+          "ir_to_t2d": 139361.5794274537
+        },
+        "deaths": 34845.65216754703,
+        "initial_age": 1,
+        "initial_age_is_open": false,
+        "initial_population": 3700305.0,
+        "remaining_population": 3665459.347832453,
+        "state_person_years": {
+          "healthy": 89028233.87522815,
+          "insulin_resistant": 2887314.7561582224,
+          "t2d": 300288.25877740723
+        },
+        "state_years_per_initial_person": {
+          "healthy": 24.05970153142191,
+          "insulin_resistant": 0.7802910182155856,
+          "t2d": 0.0811522992773318
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1017151.701520544,
+          "ir_to_healthy": 70600.21814162504,
+          "ir_to_t2d": 176500.5453540626
+        },
+        "deaths": 37422.49081687443,
+        "initial_age": 2,
+        "initial_age_is_open": false,
+        "initial_population": 3766783.0,
+        "remaining_population": 3729360.5091831256,
+        "state_person_years": {
+          "healthy": 89769770.51777114,
+          "insulin_resistant": 3656812.8045671466,
+          "t2d": 447134.5394708243
+        },
+        "state_years_per_initial_person": {
+          "healthy": 23.831946389736583,
+          "insulin_resistant": 0.9708052745717358,
+          "t2d": 0.11870461862836917
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1090310.856421202,
+          "ir_to_healthy": 83652.19618877489,
+          "ir_to_t2d": 209130.49047193726
+        },
+        "deaths": 39293.67142218398,
+        "initial_age": 3,
+        "initial_age_is_open": false,
+        "initial_population": 3689270.0,
+        "remaining_population": 3649976.328577816,
+        "state_person_years": {
+          "healthy": 86984885.16764945,
+          "insulin_resistant": 4332914.859801637,
+          "t2d": 610110.1755301647
+        },
+        "state_years_per_initial_person": {
+          "healthy": 23.577804055449846,
+          "insulin_resistant": 1.1744640158626605,
+          "t2d": 0.16537422729433324
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1220605.9960947009,
+          "ir_to_healthy": 102243.40378813249,
+          "ir_to_t2d": 255608.5094703312
+        },
+        "deaths": 43827.067440882325,
+        "initial_age": 4,
+        "initial_age_is_open": false,
+        "initial_population": 3811156.0,
+        "remaining_population": 3767328.9325591177,
+        "state_person_years": {
+          "healthy": 88801112.56745663,
+          "insulin_resistant": 5295967.297145711,
+          "t2d": 845240.4088587507
+        },
+        "state_years_per_initial_person": {
+          "healthy": 23.300309031552796,
+          "insulin_resistant": 1.3895960430760932,
+          "t2d": 0.22178058543359305
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1331031.8200152663,
+          "ir_to_healthy": 120514.37924814489,
+          "ir_to_t2d": 301285.94812036224
+        },
+        "deaths": 48251.27900272561,
+        "initial_age": 5,
+        "initial_age_is_open": false,
+        "initial_population": 3866199.0,
+        "remaining_population": 3817947.7209972744,
+        "state_person_years": {
+          "healthy": 88925479.16067915,
+          "insulin_resistant": 6242480.12160203,
+          "t2d": 1115205.662092449
+        },
+        "state_years_per_initial_person": {
+          "healthy": 23.000750649586106,
+          "insulin_resistant": 1.6146298008979956,
+          "t2d": 0.28845014498541044
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1447628.6289495649,
+          "ir_to_healthy": 140513.68260347433,
+          "ir_to_t2d": 351284.20650868583
+        },
+        "deaths": 53465.22834695084,
+        "initial_age": 6,
+        "initial_age_is_open": false,
+        "initial_population": 3938295.0,
+        "remaining_population": 3884829.771653049,
+        "state_person_years": {
+          "healthy": 89322518.8172101,
+          "insulin_resistant": 7278569.821529254,
+          "t2d": 1440758.3091858316
+        },
+        "state_years_per_initial_person": {
+          "healthy": 22.680504842123327,
+          "insulin_resistant": 1.8481525181656666,
+          "t2d": 0.36583300874765134
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1558704.675136667,
+          "ir_to_healthy": 161078.1392523591,
+          "ir_to_t2d": 402695.3481308978
+        },
+        "deaths": 59031.50470911199,
+        "initial_age": 7,
+        "initial_age_is_open": false,
+        "initial_population": 3994511.0,
+        "remaining_population": 3935479.495290888,
+        "state_person_years": {
+          "healthy": 89239442.19677995,
+          "insulin_resistant": 8343987.037769937,
+          "t2d": 1814723.3722643696
+        },
+        "state_years_per_initial_person": {
+          "healthy": 22.340517324092975,
+          "insulin_resistant": 2.0888632019713893,
+          "t2d": 0.45430426208974506
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1680748.2173060474,
+          "ir_to_healthy": 183839.30328869593,
+          "ir_to_t2d": 459598.2582217399
+        },
+        "deaths": 65579.27638377622,
+        "initial_age": 8,
+        "initial_age_is_open": false,
+        "initial_population": 4077472.0,
+        "remaining_population": 4011892.723616224,
+        "state_person_years": {
+          "healthy": 89629470.8756826,
+          "insulin_resistant": 9523249.928476114,
+          "t2d": 2259622.5703250854
+        },
+        "state_years_per_initial_person": {
+          "healthy": 21.98162755640814,
+          "insulin_resistant": 2.3355770262741506,
+          "t2d": 0.5541724309388477
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1778594.01609732,
+          "ir_to_healthy": 204873.28434825715,
+          "ir_to_t2d": 512183.21087064286
+        },
+        "deaths": 71748.70166484313,
+        "initial_age": 9,
+        "initial_age_is_open": false,
+        "initial_population": 4102138.0,
+        "remaining_population": 4030389.298335157,
+        "state_person_years": {
+          "healthy": 88624850.89744997,
+          "insulin_resistant": 10613094.23302654,
+          "t2d": 2730726.572950451
+        },
+        "state_years_per_initial_person": {
+          "healthy": 21.604551308963757,
+          "insulin_resistant": 2.587210433443863,
+          "t2d": 0.6656837417342983
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1856540.2272494908,
+          "ir_to_healthy": 224225.2708089384,
+          "ir_to_t2d": 560563.1770223461
+        },
+        "deaths": 77645.5944736749,
+        "initial_age": 10,
+        "initial_age_is_open": false,
+        "initial_population": 4086091.0,
+        "remaining_population": 4008445.405526325,
+        "state_person_years": {
+          "healthy": 86665889.51402189,
+          "insulin_resistant": 11615854.907975495,
+          "t2d": 3224042.2304888503
+        },
+        "state_years_per_initial_person": {
+          "healthy": 21.209975380876706,
+          "insulin_resistant": 2.84277929883977,
+          "t2d": 0.7890284945902698
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1941754.1241756326,
+          "ir_to_healthy": 244952.32263323432,
+          "ir_to_t2d": 612380.8065830859
+        },
+        "deaths": 84368.38202721812,
+        "initial_age": 11,
+        "initial_age_is_open": false,
+        "initial_population": 4091663.0,
+        "remaining_population": 4007294.617972782,
+        "state_person_years": {
+          "healthy": 85101068.89364976,
+          "insulin_resistant": 12689900.552531835,
+          "t2d": 3782126.4583903207
+        },
+        "state_years_per_initial_person": {
+          "healthy": 20.798650547136887,
+          "insulin_resistant": 3.1014041362966194,
+          "t2d": 0.924349453606106
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2027027.7759080217,
+          "ir_to_healthy": 266186.2372108641,
+          "ir_to_t2d": 665465.5930271603
+        },
+        "deaths": 91614.52796830982,
+        "initial_age": 12,
+        "initial_age_is_open": false,
+        "initial_population": 4101411.0,
+        "remaining_population": 4009796.47203169,
+        "state_person_years": {
+          "healthy": 83551760.0109489,
+          "insulin_resistant": 13790260.88610157,
+          "t2d": 4395699.7326285895
+        },
+        "state_years_per_initial_person": {
+          "healthy": 20.3714672855144,
+          "insulin_resistant": 3.362321134385598,
+          "t2d": 1.0717530461171996
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2135521.6486180974,
+          "ir_to_healthy": 291047.64159364917,
+          "ir_to_t2d": 727619.1039841233
+        },
+        "deaths": 100427.32664996618,
+        "initial_age": 13,
+        "initial_age_is_open": false,
+        "initial_population": 4159743.0,
+        "remaining_population": 4059315.673350034,
+        "state_person_years": {
+          "healthy": 82901490.54415731,
+          "insulin_resistant": 15078615.90099832,
+          "t2d": 5121981.716376876
+        },
+        "state_years_per_initial_person": {
+          "healthy": 19.929474139185356,
+          "insulin_resistant": 3.624891225491171,
+          "t2d": 1.2313216745305844
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2263013.1436572527,
+          "ir_to_healthy": 319239.0109759099,
+          "ir_to_t2d": 798097.5274397746
+        },
+        "deaths": 110666.54838523874,
+        "initial_age": 14,
+        "initial_age_is_open": false,
+        "initial_population": 4253364.0,
+        "remaining_population": 4142697.4516147613,
+        "state_person_years": {
+          "healthy": 82828966.39769375,
+          "insulin_resistant": 16539569.586757792,
+          "t2d": 5967976.849415598
+        },
+        "state_years_per_initial_person": {
+          "healthy": 19.47375451470736,
+          "insulin_resistant": 3.8885855023830063,
+          "t2d": 1.4031192367771952
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2383968.2602873477,
+          "ir_to_healthy": 347257.25222994934,
+          "ir_to_t2d": 868143.1305748734
+        },
+        "deaths": 121108.52938503679,
+        "initial_age": 15,
+        "initial_age_is_open": false,
+        "initial_population": 4332278.0,
+        "remaining_population": 4211169.470614963,
+        "state_person_years": {
+          "healthy": 82335599.23569252,
+          "insulin_resistant": 17991641.077538043,
+          "t2d": 6876102.795080293
+        },
+        "state_years_per_initial_person": {
+          "healthy": 19.00515138587425,
+          "insulin_resistant": 4.152928569574262,
+          "t2d": 1.5871794919624949
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2542249.237137334,
+          "ir_to_healthy": 381545.3435604893,
+          "ir_to_t2d": 953863.3589012232
+        },
+        "deaths": 134077.74623201042,
+        "initial_age": 16,
+        "initial_age_is_open": false,
+        "initial_population": 4475114.0,
+        "remaining_population": 4341036.25376799,
+        "state_person_years": {
+          "healthy": 82897972.18470995,
+          "insulin_resistant": 19768661.722713277,
+          "t2d": 7981349.750155926
+        },
+        "state_years_per_initial_person": {
+          "healthy": 18.524214619942633,
+          "insulin_resistant": 4.417465504278389,
+          "t2d": 1.7834964092883279
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2626409.8371464936,
+          "ir_to_healthy": 405332.4340189216,
+          "ir_to_t2d": 1013331.0850473039
+        },
+        "deaths": 143760.6927685812,
+        "initial_age": 17,
+        "initial_age_is_open": false,
+        "initial_population": 4485865.0,
+        "remaining_population": 4342104.307231419,
+        "state_person_years": {
+          "healthy": 80885817.32163672,
+          "insulin_resistant": 21001704.881624345,
+          "t2d": 8935935.112802476
+        },
+        "state_years_per_initial_person": {
+          "healthy": 18.031264276039675,
+          "insulin_resistant": 4.68175143068825,
+          "t2d": 1.9920205161774764
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1960850.7477655096,
+          "ir_to_healthy": 515469.8921029774,
+          "ir_to_t2d": 1288674.7302574432
+        },
+        "deaths": 171806.36628513597,
+        "initial_age": 18,
+        "initial_age_is_open": false,
+        "initial_population": 4447882.0,
+        "remaining_population": 4276075.633714864,
+        "state_person_years": {
+          "healthy": 57041432.80039225,
+          "insulin_resistant": 26706551.592823308,
+          "t2d": 25846437.146513645
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.824403345320817,
+          "insulin_resistant": 6.004330059300878,
+          "t2d": 5.8109538756904175
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1961788.7873026498,
+          "ir_to_healthy": 515596.59927505266,
+          "ir_to_t2d": 1288991.498187632
+        },
+        "deaths": 181687.55462156888,
+        "initial_age": 19,
+        "initial_age_is_open": false,
+        "initial_population": 4452930.0,
+        "remaining_population": 4271242.445378431,
+        "state_person_years": {
+          "healthy": 57070547.72708207,
+          "insulin_resistant": 26714292.91933231,
+          "t2d": 25836463.96387324
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.816403520172576,
+          "insulin_resistant": 5.999261816227138,
+          "t2d": 5.8021266815048165
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1974874.752081395,
+          "ir_to_healthy": 518911.01664708904,
+          "ir_to_t2d": 1297277.5416177232
+        },
+        "deaths": 192996.6331138471,
+        "initial_age": 20,
+        "initial_age_is_open": false,
+        "initial_population": 4485626.0,
+        "remaining_population": 4292629.366886153,
+        "state_person_years": {
+          "healthy": 57453112.68944857,
+          "insulin_resistant": 26887236.024045374,
+          "t2d": 25985544.96591358
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.80827083877447,
+          "insulin_resistant": 5.994087787088218,
+          "t2d": 5.793069900592154
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1963215.2947995372,
+          "ir_to_healthy": 515718.9323211794,
+          "ir_to_t2d": 1289297.3308029484
+        },
+        "deaths": 202181.6714676125,
+        "initial_age": 21,
+        "initial_age_is_open": false,
+        "initial_population": 4462160.0,
+        "remaining_population": 4259978.3285323875,
+        "state_person_years": {
+          "healthy": 57115829.75872622,
+          "insulin_resistant": 26723084.11320883,
+          "t2d": 25808234.413433887
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.800040733350265,
+          "insulin_resistant": 5.9888224790704125,
+          "t2d": 5.7837985221134804
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1998416.694392548,
+          "ir_to_healthy": 524830.0279106045,
+          "ir_to_t2d": 1312075.0697765115
+        },
+        "deaths": 216761.4424389284,
+        "initial_age": 22,
+        "initial_age_is_open": false,
+        "initial_population": 4545285.0,
+        "remaining_population": 4328523.557561072,
+        "state_person_years": {
+          "healthy": 58141959.30053748,
+          "insulin_resistant": 27196517.439592786,
+          "t2d": 26245801.98514228
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.791708176833241,
+          "insulin_resistant": 5.983457019657246,
+          "t2d": 5.774291817816106
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2122960.174284469,
+          "ir_to_healthy": 557386.3421975388,
+          "ir_to_t2d": 1393465.8554938475
+        },
+        "deaths": 242628.81452377792,
+        "initial_age": 23,
+        "initial_age_is_open": false,
+        "initial_population": 4831977.999999999,
+        "remaining_population": 4589349.185476221,
+        "state_person_years": {
+          "healthy": 61767685.46725326,
+          "insulin_resistant": 28885065.9103645,
+          "t2d": 27853515.126095746
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.783105690310112,
+          "insulin_resistant": 5.977896817900352,
+          "t2d": 5.764412653802594
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2137763.448090345,
+          "ir_to_healthy": 561111.036118024,
+          "ir_to_t2d": 1402777.5902950608
+        },
+        "deaths": 257767.8394338498,
+        "initial_age": 24,
+        "initial_age_is_open": false,
+        "initial_population": 4869332.0,
+        "remaining_population": 4611564.16056615,
+        "state_person_years": {
+          "healthy": 62200831.6664527,
+          "insulin_resistant": 29079707.77872742,
+          "t2d": 28018011.368278697
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.773996857567465,
+          "insulin_resistant": 5.972011721264317,
+          "t2d": 5.7539743373996055
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2074199.1606673633,
+          "ir_to_healthy": 544259.2894988488,
+          "ir_to_t2d": 1360648.223747122
+        },
+        "deaths": 264318.04711781815,
+        "initial_age": 25,
+        "initial_age_is_open": false,
+        "initial_population": 4728379.0,
+        "remaining_population": 4464060.952882182,
+        "state_person_years": {
+          "healthy": 60353929.10492451,
+          "insulin_resistant": 28208070.225638118,
+          "t2d": 27154225.84039356
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.764190244674657,
+          "insulin_resistant": 5.965695690983764,
+          "t2d": 5.742819228406512
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2014262.5950895746,
+          "ir_to_healthy": 528357.8698054376,
+          "ir_to_t2d": 1320894.6745135938
+        },
+        "deaths": 271779.1604908258,
+        "initial_age": 26,
+        "initial_age_is_open": false,
+        "initial_population": 4595794.0,
+        "remaining_population": 4324014.839509174,
+        "state_person_years": {
+          "healthy": 58612663.30705188,
+          "insulin_resistant": 27385735.59787658,
+          "t2d": 26337679.437237445
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.753544503311481,
+          "insulin_resistant": 5.95886926130209,
+          "t2d": 5.7308224514061
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1966710.244266872,
+          "ir_to_healthy": 515702.1668913019,
+          "ir_to_t2d": 1289255.417228255
+        },
+        "deaths": 281443.6810821686,
+        "initial_age": 27,
+        "initial_age_is_open": false,
+        "initial_population": 4491577.0,
+        "remaining_population": 4210133.318917831,
+        "state_person_years": {
+          "healthy": 57231856.57436836,
+          "insulin_resistant": 26731691.869262353,
+          "t2d": 25682558.966767844
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.742040618332572,
+          "insulin_resistant": 5.951515886126933,
+          "t2d": 5.71793803529759
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1957951.4669341128,
+          "ir_to_healthy": 513211.4095521489,
+          "ir_to_t2d": 1283028.5238803723
+        },
+        "deaths": 297532.3231820632,
+        "initial_age": 28,
+        "initial_age_is_open": false,
+        "initial_population": 4476138.0,
+        "remaining_population": 4178605.676817937,
+        "state_person_years": {
+          "healthy": 56980105.11655467,
+          "insulin_resistant": 26604655.182703555,
+          "t2d": 25532671.866680443
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.729747187543072,
+          "insulin_resistant": 5.943662859077079,
+          "t2d": 5.704174417026563
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1970749.7376351224,
+          "ir_to_healthy": 516357.49238657847,
+          "ir_to_t2d": 1290893.730966446
+        },
+        "deaths": 318275.6864108555,
+        "initial_age": 29,
+        "initial_age_is_open": false,
+        "initial_population": 4510254.0,
+        "remaining_population": 4191978.3135891445,
+        "state_person_years": {
+          "healthy": 57355938.87266709,
+          "insulin_resistant": 26769993.802196264,
+          "t2d": 25661405.845561635
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.716786875565564,
+          "insulin_resistant": 5.935362798236255,
+          "t2d": 5.689569998843
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1983721.809833929,
+          "ir_to_healthy": 519531.7842000617,
+          "ir_to_t2d": 1298829.4605001542
+        },
+        "deaths": 340753.26421313174,
+        "initial_age": 30,
+        "initial_age_is_open": false,
+        "initial_population": 4545085.0,
+        "remaining_population": 4204331.735786868,
+        "state_person_years": {
+          "healthy": 57737116.57603353,
+          "insulin_resistant": 26936998.949992463,
+          "t2d": 25789262.284399714
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.70319841675866,
+          "insulin_resistant": 5.926621603334693,
+          "t2d": 5.674099006817191
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2002733.4613589037,
+          "ir_to_healthy": 524267.5684249907,
+          "ir_to_t2d": 1310668.9210624765
+        },
+        "deaths": 366145.5315749934,
+        "initial_age": 31,
+        "initial_age_is_open": false,
+        "initial_population": 4594124.0,
+        "remaining_population": 4227978.468425007,
+        "state_person_years": {
+          "healthy": 58294397.89731381,
+          "insulin_resistant": 27185191.900616787,
+          "t2d": 25991968.116923966
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.688903890559725,
+          "insulin_resistant": 5.917383139988557,
+          "t2d": 5.657654890665547
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2033799.2359560546,
+          "ir_to_healthy": 532133.2987738275,
+          "ir_to_t2d": 1330333.2469345685
+        },
+        "deaths": 396139.08446800616,
+        "initial_age": 32,
+        "initial_age_is_open": false,
+        "initial_population": 4671312.0,
+        "remaining_population": 4275172.915531994,
+        "state_person_years": {
+          "healthy": 59202956.07792827,
+          "insulin_resistant": 27595972.899825133,
+          "t2d": 26346515.816121995
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.6737319361088,
+          "insulin_resistant": 5.907542227927643,
+          "t2d": 5.640067676088002
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2068662.4976076481,
+          "ir_to_healthy": 540960.9816411448,
+          "ir_to_t2d": 1352402.4541028622
+        },
+        "deaths": 430066.0999575164,
+        "initial_age": 33,
+        "initial_age_is_open": false,
+        "initial_population": 4757860.0,
+        "remaining_population": 4327793.900042484,
+        "state_person_years": {
+          "healthy": 60222602.26773899,
+          "insulin_resistant": 28057021.582954247,
+          "t2d": 26744618.783630833
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.65749775481813,
+          "insulin_resistant": 5.896983430145958,
+          "t2d": 5.621144544738776
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2081538.0209295605,
+          "ir_to_healthy": 544004.9683905997,
+          "ir_to_t2d": 1360012.4209764993
+        },
+        "deaths": 463022.85803443193,
+        "initial_age": 34,
+        "initial_age_is_open": false,
+        "initial_population": 4794527.999999999,
+        "remaining_population": 4331505.141965567,
+        "state_person_years": {
+          "healthy": 60602755.165547155,
+          "insulin_resistant": 28218526.530234605,
+          "t2d": 26852471.3683396
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.639983574096796,
+          "insulin_resistant": 5.8855692427355955,
+          "t2d": 5.600649608958297
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 2017928.0903370036,
+          "ir_to_healthy": 527037.4692030963,
+          "ir_to_t2d": 1317593.673007741
+        },
+        "deaths": 481388.7359810397,
+        "initial_age": 35,
+        "initial_age_is_open": false,
+        "initial_population": 4655460.0,
+        "remaining_population": 4174071.2640189603,
+        "state_person_years": {
+          "healthy": 58756488.88748075,
+          "insulin_resistant": 27342289.03706711,
+          "t2d": 25969761.26201303
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.620984583151987,
+          "insulin_resistant": 5.873165924971348,
+          "t2d": 5.578344838536477
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1980842.2518286668,
+          "ir_to_healthy": 516981.656109102,
+          "ir_to_t2d": 1292454.1402727552
+        },
+        "deaths": 507559.57019400597,
+        "initial_age": 36,
+        "initial_age_is_open": false,
+        "initial_population": 4577885.0,
+        "remaining_population": 4070325.429805994,
+        "state_person_years": {
+          "healthy": 57682792.73030127,
+          "insulin_resistant": 26824806.80663177,
+          "t2d": 25425635.30876276
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.600314933708747,
+          "insulin_resistant": 5.859650647980841,
+          "t2d": 5.554013547470668
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1952527.2336783863,
+          "ir_to_healthy": 509191.8438560273,
+          "ir_to_t2d": 1272979.6096400684
+        },
+        "deaths": 537742.7891732296,
+        "initial_age": 37,
+        "initial_age_is_open": false,
+        "initial_population": 4521041.0,
+        "remaining_population": 3983298.2108267704,
+        "state_person_years": {
+          "healthy": 56864838.54234546,
+          "insulin_resistant": 26425125.389232162,
+          "t2d": 24989972.311266027
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.577819697354096,
+          "insulin_resistant": 5.844920536936551,
+          "t2d": 5.527481903231142
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1957703.7102292909,
+          "ir_to_healthy": 510102.8985673884,
+          "ir_to_t2d": 1275257.2464184712
+        },
+        "deaths": 579583.6189551926,
+        "initial_age": 38,
+        "initial_age_is_open": false,
+        "initial_population": 4542429.0,
+        "remaining_population": 3962845.3810448074,
+        "state_person_years": {
+          "healthy": 57022747.156080864,
+          "insulin_resistant": 26477296.366924495,
+          "t2d": 24977042.201818753
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.553360141915451,
+          "insulin_resistant": 5.8288850231725124,
+          "t2d": 5.498609268701559
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1945241.065542049,
+          "ir_to_healthy": 506379.2683185151,
+          "ir_to_t2d": 1265948.1707962877
+        },
+        "deaths": 618940.7481729938,
+        "initial_age": 39,
+        "initial_age_is_open": false,
+        "initial_population": 4523696.0,
+        "remaining_population": 3904755.251827006,
+        "state_person_years": {
+          "healthy": 56667407.79506257,
+          "insulin_resistant": 26289252.3038112,
+          "t2d": 24732261.356999993
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.5267939744542,
+          "insulin_resistant": 5.811454240915216,
+          "t2d": 5.4672686575313625
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1885990.1562899058,
+          "ir_to_healthy": 490451.8221603703,
+          "ir_to_t2d": 1226129.5554009257
+        },
+        "deaths": 644758.4189099409,
+        "initial_age": 40,
+        "initial_age_is_open": false,
+        "initial_population": 4396672.0,
+        "remaining_population": 3751913.581090059,
+        "state_person_years": {
+          "healthy": 54949361.01281985,
+          "insulin_resistant": 25467818.952632915,
+          "t2d": 23888530.48123406
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.497944129746283,
+          "insulin_resistant": 5.792521923999088,
+          "t2d": 5.433321039466683
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1900602.0324746277,
+          "ir_to_healthy": 493699.81169910607,
+          "ir_to_t2d": 1234249.5292477657
+        },
+        "deaths": 697930.5129176187,
+        "initial_age": 41,
+        "initial_age_is_open": false,
+        "initial_population": 4442542.0,
+        "remaining_population": 3744611.4870823813,
+        "state_person_years": {
+          "healthy": 55383782.47916356,
+          "insulin_resistant": 25642393.500549052,
+          "t2d": 23974914.049121946
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.466687423363371,
+          "insulin_resistant": 5.772009246181365,
+          "t2d": 5.396665703806953
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1879523.2538660422,
+          "ir_to_healthy": 487630.78043249727,
+          "ir_to_t2d": 1219076.9510812433
+        },
+        "deaths": 741658.8433489008,
+        "initial_age": 42,
+        "initial_age_is_open": false,
+        "initial_population": 4406001.0,
+        "remaining_population": 3664342.156651099,
+        "state_person_years": {
+          "healthy": 54778881.019839436,
+          "insulin_resistant": 25333516.65899236,
+          "t2d": 23603453.625119753
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.432789057433132,
+          "insulin_resistant": 5.749775512759157,
+          "t2d": 5.357114904222617
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1855305.3631589236,
+          "ir_to_healthy": 480711.09499330923,
+          "ir_to_t2d": 1201777.7374832733
+        },
+        "deaths": 786291.7525520371,
+        "initial_age": 43,
+        "initial_age_is_open": false,
+        "initial_population": 4362990.0,
+        "remaining_population": 3576698.247447963,
+        "state_person_years": {
+          "healthy": 54082974.77785122,
+          "insulin_resistant": 24980739.631647155,
+          "t2d": 23186658.63188755
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.395851188714898,
+          "insulin_resistant": 5.72560093689125,
+          "t2d": 5.31439646478391
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1844118.9560178365,
+          "ir_to_healthy": 477126.46322864416,
+          "ir_to_t2d": 1192816.1580716106
+        },
+        "deaths": 839119.3290881212,
+        "initial_age": 44,
+        "initial_age_is_open": false,
+        "initial_population": 4351732.0,
+        "remaining_population": 3512612.670911879,
+        "state_person_years": {
+          "healthy": 53767545.181455374,
+          "insulin_resistant": 24801631.578061607,
+          "t2d": 22926027.00094263
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.35543576246317,
+          "insulin_resistant": 5.699255279980846,
+          "t2d": 5.268253422072552
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1748328.775876126,
+          "ir_to_healthy": 451639.09405089065,
+          "ir_to_t2d": 1129097.7351272267
+        },
+        "deaths": 853725.9845999866,
+        "initial_age": 45,
+        "initial_age_is_open": false,
+        "initial_population": 4141396.0,
+        "remaining_population": 3287670.0154000134,
+        "state_person_years": {
+          "healthy": 50985569.30324827,
+          "insulin_resistant": 23484053.774855062,
+          "t2d": 21611923.39301675
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.31120359010543,
+          "insulin_resistant": 5.67056465376773,
+          "t2d": 5.21851167891618
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1697366.7354022856,
+          "ir_to_healthy": 437738.2282782232,
+          "ir_to_t2d": 1094345.570695558
+        },
+        "deaths": 888789.3542806064,
+        "initial_age": 46,
+        "initial_age_is_open": false,
+        "initial_population": 4037422.0,
+        "remaining_population": 3148632.6457193936,
+        "state_person_years": {
+          "healthy": 49510768.19502822,
+          "insulin_resistant": 22768794.277660996,
+          "t2d": 20853761.862013694
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.26296587154581,
+          "insulin_resistant": 5.639438799724427,
+          "t2d": 5.165118202163087
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1668971.7906394603,
+          "ir_to_healthy": 429637.881505675,
+          "ir_to_t2d": 1074094.7037641879
+        },
+        "deaths": 936960.591449792,
+        "initial_age": 47,
+        "initial_age_is_open": false,
+        "initial_population": 3987871.0,
+        "remaining_population": 3050910.408550208,
+        "state_person_years": {
+          "healthy": 48694590.082703754,
+          "insulin_resistant": 22355430.398537014,
+          "t2d": 20370433.254074566
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.210673334895676,
+          "insulin_resistant": 5.60585595635792,
+          "t2d": 5.10809734168296
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1608123.1206999863,
+          "ir_to_healthy": 413169.930141279,
+          "ir_to_t2d": 1032924.8253531978
+        },
+        "deaths": 968221.9322382137,
+        "initial_age": 48,
+        "initial_age_is_open": false,
+        "initial_population": 3861348.0,
+        "remaining_population": 2893126.0677617863,
+        "state_person_years": {
+          "healthy": 46931864.2203239,
+          "insulin_resistant": 21506852.570900135,
+          "t2d": 19489854.076039594
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.15426949871493,
+          "insulin_resistant": 5.569778370377427,
+          "t2d": 5.047422318848131
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1616426.1559452303,
+          "ir_to_healthy": 414436.8096311828,
+          "ir_to_t2d": 1036092.0240779571
+        },
+        "deaths": 1043943.7467721822,
+        "initial_age": 49,
+        "initial_age_is_open": false,
+        "initial_population": 3901868.0,
+        "remaining_population": 2857924.253227818,
+        "state_person_years": {
+          "healthy": 47187912.74948755,
+          "insulin_resistant": 21581807.310262866,
+          "t2d": 19443111.00956847
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.093672248647968,
+          "insulin_resistant": 5.531147468408174,
+          "t2d": 4.98302633753076
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1567861.9893811278,
+          "ir_to_healthy": 401083.09399848717,
+          "ir_to_t2d": 1002707.734996218
+        },
+        "deaths": 1087044.2227603323,
+        "initial_age": 50,
+        "initial_age_is_open": false,
+        "initial_population": 3806301.0,
+        "remaining_population": 2719256.7772396677,
+        "state_person_years": {
+          "healthy": 45784708.450365305,
+          "insulin_resistant": 20895927.244958263,
+          "t2d": 18706938.43732029
+        },
+        "state_years_per_initial_person": {
+          "healthy": 12.028662065970428,
+          "insulin_resistant": 5.489825225319349,
+          "t2d": 4.914729139214237
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1582107.027643453,
+          "ir_to_healthy": 403747.9485127401,
+          "ir_to_t2d": 1009369.8712818505
+        },
+        "deaths": 1178544.7469095723,
+        "initial_age": 51,
+        "initial_age_is_open": false,
+        "initial_population": 3864608.9999999995,
+        "remaining_population": 2686064.2530904273,
+        "state_person_years": {
+          "healthy": 46216675.570441075,
+          "insulin_resistant": 21045229.788779136,
+          "t2d": 18713525.62565124
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.95895252804128,
+          "insulin_resistant": 5.4456297619705225,
+          "t2d": 4.842281748464396
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1634480.3819840606,
+          "ir_to_healthy": 416023.093968767,
+          "ir_to_t2d": 1040057.7349219174
+        },
+        "deaths": 1309305.8257639846,
+        "initial_age": 52,
+        "initial_age_is_open": false,
+        "initial_population": 4019193.9999999995,
+        "remaining_population": 2709888.174236015,
+        "state_person_years": {
+          "healthy": 47764666.71076536,
+          "insulin_resistant": 21696880.381768864,
+          "t2d": 19152923.59555147
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.884140628883644,
+          "insulin_resistant": 5.3983162747976,
+          "t2d": 4.7653642983024636
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1719483.5330993976,
+          "ir_to_healthy": 436424.15744818584,
+          "ir_to_t2d": 1091060.3936204643
+        },
+        "deaths": 1480060.3259749846,
+        "initial_age": 53,
+        "initial_age_is_open": false,
+        "initial_population": 4258738.0,
+        "remaining_population": 2778677.6740250154,
+        "state_person_years": {
+          "healthy": 50269173.4461292,
+          "insulin_resistant": 22774175.99157972,
+          "t2d": 19946739.942769524
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.80377225509745,
+          "insulin_resistant": 5.347634907707334,
+          "t2d": 4.68372084471257
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1690363.9561347042,
+          "ir_to_healthy": 427716.7084859097,
+          "ir_to_t2d": 1069291.7712147743
+        },
+        "deaths": 1568830.974948164,
+        "initial_age": 54,
+        "initial_age_is_open": false,
+        "initial_population": 4219466.0,
+        "remaining_population": 2650635.025051836,
+        "state_person_years": {
+          "healthy": 49440486.77584774,
+          "insulin_resistant": 22334565.270822994,
+          "t2d": 19396387.127998818
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.717237862764563,
+          "insulin_resistant": 5.293220817710818,
+          "t2d": 4.5968819580484395
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1612755.8984740565,
+          "ir_to_healthy": 406717.6557985411,
+          "ir_to_t2d": 1016794.1394963531
+        },
+        "deaths": 1613702.4930440676,
+        "initial_age": 55,
+        "initial_age_is_open": false,
+        "initial_population": 4060066.0,
+        "remaining_population": 2446363.5069559324,
+        "state_person_years": {
+          "healthy": 47194079.24377666,
+          "insulin_resistant": 21253327.171423085,
+          "t2d": 18288183.130874123
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.62396848814198,
+          "insulin_resistant": 5.234724551626275,
+          "t2d": 4.504405379339676
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1558489.840855037,
+          "ir_to_healthy": 391600.7975552402,
+          "ir_to_t2d": 979001.9938881005
+        },
+        "deaths": 1683916.4282013746,
+        "initial_age": 56,
+        "initial_age_is_open": false,
+        "initial_population": 3959937.0,
+        "remaining_population": 2276020.5717986254,
+        "state_person_years": {
+          "healthy": 45631305.26637121,
+          "insulin_resistant": 20479763.47540106,
+          "t2d": 17446981.021961298
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.52324020972334,
+          "insulin_resistant": 5.171739720960475,
+          "t2d": 4.405873381814231
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1542364.4185708654,
+          "ir_to_healthy": 386008.2060872983,
+          "ir_to_t2d": 965020.5152182458
+        },
+        "deaths": 1799675.1273581525,
+        "initial_age": 57,
+        "initial_age_is_open": false,
+        "initial_population": 3958675.0,
+        "remaining_population": 2158999.8726418475,
+        "state_person_years": {
+          "healthy": 45186490.39058839,
+          "insulin_resistant": 20204961.967183925,
+          "t2d": 17026382.234304428
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.41454915864232,
+          "insulin_resistant": 5.103970891064289,
+          "t2d": 4.301030580763621
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1555354.5583060577,
+          "ir_to_healthy": 387567.5426695283,
+          "ir_to_t2d": 968918.856673821
+        },
+        "deaths": 1961827.5417548115,
+        "initial_age": 58,
+        "initial_age_is_open": false,
+        "initial_population": 4035958.0,
+        "remaining_population": 2074130.4582451885,
+        "state_person_years": {
+          "healthy": 45597520.165983975,
+          "insulin_resistant": 20306252.334795166,
+          "t2d": 16910302.726944853
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.297818303853502,
+          "insulin_resistant": 5.031333907536988,
+          "t2d": 4.189910481463101
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1598930.7094163056,
+          "ir_to_healthy": 396536.8270004938,
+          "ir_to_t2d": 991342.0675012346
+        },
+        "deaths": 2177868.527015252,
+        "initial_age": 59,
+        "initial_age_is_open": false,
+        "initial_population": 4198410.0,
+        "remaining_population": 2020541.472984748,
+        "state_person_years": {
+          "healthy": 46908959.27978856,
+          "insulin_resistant": 20798016.193372123,
+          "t2d": 17098731.083785385
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.173029618305158,
+          "insulin_resistant": 4.953783978547146,
+          "t2d": 4.072668244355693
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1611848.333294013,
+          "ir_to_healthy": 397671.0345810796,
+          "ir_to_t2d": 994177.5864526989
+        },
+        "deaths": 2369790.724814976,
+        "initial_age": 60,
+        "initial_age_is_open": false,
+        "initial_population": 4286803.0,
+        "remaining_population": 1917012.275185024,
+        "state_person_years": {
+          "healthy": 47325253.30916621,
+          "insulin_resistant": 20881416.43780782,
+          "t2d": 16930113.823735032
+        },
+        "state_years_per_initial_person": {
+          "healthy": 11.039754639801783,
+          "insulin_resistant": 4.871093082142525,
+          "t2d": 3.94935662397713
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1586007.87348941,
+          "ir_to_healthy": 389085.26054775727,
+          "ir_to_t2d": 972713.1513693931
+        },
+        "deaths": 2513522.2696292214,
+        "initial_age": 61,
+        "initial_age_is_open": false,
+        "initial_population": 4276961.0,
+        "remaining_population": 1763438.7303707786,
+        "state_person_years": {
+          "healthy": 46606289.51530167,
+          "insulin_resistant": 20455880.215158556,
+          "t2d": 16337457.570612645
+        },
+        "state_years_per_initial_person": {
+          "healthy": 10.897057400173082,
+          "insulin_resistant": 4.782807281889771,
+          "t2d": 3.8198752737311947
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1551401.2241631544,
+          "ir_to_healthy": 378245.3434494403,
+          "ir_to_t2d": 945613.3586236009
+        },
+        "deaths": 2649710.906996369,
+        "initial_age": 62,
+        "initial_age_is_open": false,
+        "initial_population": 4247324.0,
+        "remaining_population": 1597613.093003631,
+        "state_person_years": {
+          "healthy": 45631949.04455866,
+          "insulin_resistant": 19912920.66789206,
+          "t2d": 15647474.995425863
+        },
+        "state_years_per_initial_person": {
+          "healthy": 10.743693922234014,
+          "insulin_resistant": 4.688345101031158,
+          "t2d": 3.6840784916398803
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1535080.5707128881,
+          "ir_to_healthy": 371740.70972071285,
+          "ir_to_t2d": 929351.7743017825
+        },
+        "deaths": 2823557.8003047653,
+        "initial_age": 63,
+        "initial_age_is_open": false,
+        "initial_population": 4272636.0,
+        "remaining_population": 1449078.1996952347,
+        "state_person_years": {
+          "healthy": 45197975.414565094,
+          "insulin_resistant": 19599344.783840187,
+          "t2d": 15133555.541342502
+        },
+        "state_years_per_initial_person": {
+          "healthy": 10.578475539354416,
+          "insulin_resistant": 4.587178684034911,
+          "t2d": 3.541971640304136
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1484292.0639424308,
+          "ir_to_healthy": 356795.6007682889,
+          "ir_to_t2d": 891989.0019207227
+        },
+        "deaths": 2936739.1394486795,
+        "initial_age": 64,
+        "initial_age_is_open": false,
+        "initial_population": 4206662.0,
+        "remaining_population": 1269922.8605513205,
+        "state_person_years": {
+          "healthy": 43751074.267237216,
+          "insulin_resistant": 18841419.72612941,
+          "t2d": 14276959.866613233
+        },
+        "state_years_per_initial_person": {
+          "healthy": 10.400425388880118,
+          "insulin_resistant": 4.47894785131998,
+          "t2d": 3.393892798283588
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1420621.8464200646,
+          "ir_to_healthy": 338756.4952122612,
+          "ir_to_t2d": 846891.238030653
+        },
+        "deaths": 3018597.7227999996,
+        "initial_age": 65,
+        "initial_age_is_open": false,
+        "initial_population": 4106688.9999999995,
+        "remaining_population": 1088091.2772000001,
+        "state_person_years": {
+          "healthy": 41924587.980746634,
+          "insulin_resistant": 17919532.28221907,
+          "t2d": 13307820.61764816
+        },
+        "state_years_per_initial_person": {
+          "healthy": 10.208853891966653,
+          "insulin_resistant": 4.363498741253373,
+          "t2d": 3.240523111842207
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1376351.7922717454,
+          "ir_to_healthy": 325353.9512134484,
+          "ir_to_t2d": 813384.8780336208
+        },
+        "deaths": 3134542.376218519,
+        "initial_age": 66,
+        "initial_age_is_open": false,
+        "initial_population": 4065675.0,
+        "remaining_population": 931132.6237814808,
+        "state_person_years": {
+          "healthy": 40670567.88981088,
+          "insulin_resistant": 17242124.254196852,
+          "t2d": 12533899.019868165
+        },
+        "state_years_per_initial_person": {
+          "healthy": 10.00339867053094,
+          "insulin_resistant": 4.240900773966648,
+          "t2d": 3.082858078884359
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1321647.7012399626,
+          "ir_to_healthy": 309504.48274699703,
+          "ir_to_t2d": 773761.2068674924
+        },
+        "deaths": 3218438.1175602498,
+        "initial_age": 67,
+        "initial_age_is_open": false,
+        "initial_population": 3996807.0,
+        "remaining_population": 778368.8824397501,
+        "state_person_years": {
+          "healthy": 39107920.38876635,
+          "insulin_resistant": 16434051.891870046,
+          "t2d": 11680600.239997713
+        },
+        "state_years_per_initial_person": {
+          "healthy": 9.784790806452838,
+          "insulin_resistant": 4.111795213496685,
+          "t2d": 2.9224829319998973
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1233050.5735407625,
+          "ir_to_healthy": 285861.5728356382,
+          "ir_to_t2d": 714653.9320890955
+        },
+        "deaths": 3203087.853592444,
+        "initial_age": 68,
+        "initial_age_is_open": false,
+        "initial_population": 3825460.0,
+        "remaining_population": 622372.1464075556,
+        "state_person_years": {
+          "healthy": 36539898.12328941,
+          "insulin_resistant": 15209786.269028332,
+          "t2d": 10558619.543004425
+        },
+        "state_years_per_initial_person": {
+          "healthy": 9.551765832942811,
+          "insulin_resistant": 3.975936559009461,
+          "t2d": 2.7600914773659704
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1171750.8264583033,
+          "ir_to_healthy": 268742.6940793849,
+          "ir_to_t2d": 671856.7351984624
+        },
+        "deaths": 3239177.247435962,
+        "initial_age": 69,
+        "initial_age_is_open": false,
+        "initial_population": 3737650.0,
+        "remaining_population": 498472.7525640379,
+        "state_person_years": {
+          "healthy": 34777449.16024462,
+          "insulin_resistant": 14329718.611895043,
+          "t2d": 9707069.365803797
+        },
+        "state_years_per_initial_person": {
+          "healthy": 9.304629689843784,
+          "insulin_resistant": 3.833884556310795,
+          "t2d": 2.597104963226572
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1087872.0641094516,
+          "ir_to_healthy": 246668.9037071665,
+          "ir_to_t2d": 616672.2592679162
+        },
+        "deaths": 3192991.129979731,
+        "initial_age": 70,
+        "initial_age_is_open": false,
+        "initial_population": 3576160.0,
+        "remaining_population": 383168.8700202688,
+        "state_person_years": {
+          "healthy": 32341136.016348865,
+          "insulin_resistant": 13182316.020859305,
+          "t2d": 8707144.380253451
+        },
+        "state_years_per_initial_person": {
+          "healthy": 9.043537206486528,
+          "insulin_resistant": 3.686165054376567,
+          "t2d": 2.434774836767217
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 1006355.9347849773,
+          "ir_to_healthy": 225444.75441620924,
+          "ir_to_t2d": 563611.886040523
+        },
+        "deaths": 3129862.307582137,
+        "initial_age": 71,
+        "initial_age_is_open": false,
+        "initial_population": 3417857.0,
+        "remaining_population": 287994.6924178628,
+        "state_person_years": {
+          "healthy": 29969863.712345596,
+          "insulin_resistant": 12076380.49469294,
+          "t2d": 7772875.360923531
+        },
+        "state_years_per_initial_person": {
+          "healthy": 8.768612528945944,
+          "insulin_resistant": 3.5333194146779516,
+          "t2d": 2.2741956029534096
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 924706.743867974,
+          "ir_to_healthy": 204541.4332680321,
+          "ir_to_t2d": 511353.5831700801
+        },
+        "deaths": 3041935.7272674222,
+        "initial_age": 72,
+        "initial_age_is_open": false,
+        "initial_population": 3252717.0,
+        "remaining_population": 210781.27273257784,
+        "state_person_years": {
+          "healthy": 27588837.028318405,
+          "insulin_resistant": 10983472.455802988,
+          "t2d": 6885918.090048591
+        },
+        "state_years_per_initial_person": {
+          "healthy": 8.481782161902927,
+          "insulin_resistant": 3.376707059299345,
+          "t2d": 2.116974237244922
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 852654.3568186396,
+          "ir_to_healthy": 186121.72365893083,
+          "ir_to_t2d": 465304.30914732727
+        },
+        "deaths": 2962311.6573915537,
+        "initial_age": 73,
+        "initial_age_is_open": false,
+        "initial_population": 3113928.0,
+        "remaining_population": 151616.34260844637,
+        "state_person_years": {
+          "healthy": 25488232.6432671,
+          "insulin_resistant": 10019836.933229016,
+          "t2d": 6117302.928159219
+        },
+        "state_years_per_initial_person": {
+          "healthy": 8.185235061076268,
+          "insulin_resistant": 3.2177484300308214,
+          "t2d": 1.9644972292741576
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 777709.2055784604,
+          "ir_to_healthy": 167440.27077724237,
+          "ir_to_t2d": 418600.676943106
+        },
+        "deaths": 2850606.582718578,
+        "initial_age": 74,
+        "initial_age_is_open": false,
+        "initial_population": 2956162.9999999995,
+        "remaining_population": 105556.41728142128,
+        "state_person_years": {
+          "healthy": 23295224.915323958,
+          "insulin_resistant": 9038118.057573987,
+          "t2d": 5372818.479672974
+        },
+        "state_years_per_initial_person": {
+          "healthy": 7.880223423175232,
+          "insulin_resistant": 3.057381496748991,
+          "t2d": 1.8174973706365227
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 716328.2868002718,
+          "ir_to_healthy": 152043.59231639316,
+          "ir_to_t2d": 380108.980790983
+        },
+        "deaths": 2768133.119986943,
+        "initial_age": 75,
+        "initial_age_is_open": false,
+        "initial_population": 2840686.0,
+        "remaining_population": 72552.88001305712,
+        "state_person_years": {
+          "healthy": 21502702.560242925,
+          "insulin_resistant": 8229909.521860622,
+          "t2d": 4763895.727620132
+        },
+        "state_years_per_initial_person": {
+          "healthy": 7.5695457224920055,
+          "insulin_resistant": 2.8971556595345707,
+          "t2d": 1.6770229893835968
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 662714.4717083971,
+          "ir_to_healthy": 138610.67898386676,
+          "ir_to_t2d": 346526.6974596669
+        },
+        "deaths": 2702389.556378725,
+        "initial_age": 76,
+        "initial_age_is_open": false,
+        "initial_population": 2748536.0,
+        "remaining_population": 46146.443621275146,
+        "state_person_years": {
+          "healthy": 19939381.748080924,
+          "insulin_resistant": 7525174.68405795,
+          "t2d": 4242115.981814319
+        },
+        "state_years_per_initial_person": {
+          "healthy": 7.254546328693139,
+          "insulin_resistant": 2.7378847080984023,
+          "t2d": 1.5434092847298777
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 645966.3597746349,
+          "ir_to_healthy": 133080.30877137475,
+          "ir_to_t2d": 332700.77192843694
+        },
+        "deaths": 2777192.825653958,
+        "initial_age": 77,
+        "initial_age_is_open": false,
+        "initial_population": 2808480.0,
+        "remaining_population": 31287.174346041847,
+        "state_person_years": {
+          "healthy": 19482634.39328445,
+          "insulin_resistant": 7247430.453955254,
+          "t2d": 3979530.2705092495
+        },
+        "state_years_per_initial_person": {
+          "healthy": 6.937074286904108,
+          "insulin_resistant": 2.5805526313006513,
+          "t2d": 1.4169694178022452
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 441634.8254763876,
+          "ir_to_healthy": 89575.98191582318,
+          "ir_to_t2d": 223939.95478955796
+        },
+        "deaths": 2003900.8301094414,
+        "initial_age": 78,
+        "initial_age_is_open": false,
+        "initial_population": 2018936.0,
+        "remaining_population": 15035.169890558516,
+        "state_person_years": {
+          "healthy": 13354793.336066993,
+          "insulin_resistant": 4894540.281200936,
+          "t2d": 2617557.65713983
+        },
+        "state_years_per_initial_person": {
+          "healthy": 6.614768044191095,
+          "insulin_resistant": 2.42431670999028,
+          "t2d": 1.2965035331183503
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 397917.02283230034,
+          "ir_to_healthy": 79440.79968957984,
+          "ir_to_t2d": 198601.99922394962
+        },
+        "deaths": 1905681.2680618297,
+        "initial_age": 79,
+        "initial_age_is_open": false,
+        "initial_population": 1915295.0,
+        "remaining_population": 9613.731938170158,
+        "state_person_years": {
+          "healthy": 12066081.509886669,
+          "insulin_resistant": 4356107.456420354,
+          "t2d": 2270444.400617693
+        },
+        "state_years_per_initial_person": {
+          "healthy": 6.299855379921458,
+          "insulin_resistant": 2.2743793809415016,
+          "t2d": 1.185428041433666
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 358038.1297388701,
+          "ir_to_healthy": 70326.20431480998,
+          "ir_to_t2d": 175815.5107870249
+        },
+        "deaths": 1813208.6564740213,
+        "initial_age": 80,
+        "initial_age_is_open": false,
+        "initial_population": 1819404.0,
+        "remaining_population": 6195.343525978743,
+        "state_person_years": {
+          "healthy": 10889620.691513114,
+          "insulin_resistant": 3871172.4535189513,
+          "t2d": 1966567.3853916174
+        },
+        "state_years_per_initial_person": {
+          "healthy": 5.985268083126734,
+          "insulin_resistant": 2.1277145996815174,
+          "t2d": 1.0808854907385153
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 335274.78073882294,
+          "ir_to_healthy": 64774.13855228718,
+          "ir_to_t2d": 161935.34638071797
+        },
+        "deaths": 1797817.462824276,
+        "initial_age": 81,
+        "initial_age_is_open": false,
+        "initial_population": 1802010.0,
+        "remaining_population": 4192.537175723938,
+        "state_person_years": {
+          "healthy": 10230529.506642153,
+          "insulin_resistant": 3580388.1073771436,
+          "t2d": 1773655.821164119
+        },
+        "state_years_per_initial_person": {
+          "healthy": 5.677287865573528,
+          "insulin_resistant": 1.9868858149383986,
+          "t2d": 0.9842652488965761
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 264385.8342584436,
+          "ir_to_healthy": 50221.308897308176,
+          "ir_to_t2d": 125553.27224327045
+        },
+        "deaths": 1504353.9807410713,
+        "initial_age": 82,
+        "initial_age_is_open": false,
+        "initial_population": 1506765.0,
+        "remaining_population": 2411.0192589286157,
+        "state_person_years": {
+          "healthy": 8096272.75723807,
+          "insulin_resistant": 2788619.2808162593,
+          "t2d": 1347407.9880433683
+        },
+        "state_years_per_initial_person": {
+          "healthy": 5.373281671155136,
+          "insulin_resistant": 1.8507327159950353,
+          "t2d": 0.8942389742550221
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 218032.05660498797,
+          "ir_to_healthy": 40711.6072016183,
+          "ir_to_t2d": 101779.01800404582
+        },
+        "deaths": 1318356.4522879557,
+        "initial_age": 83,
+        "initial_age_is_open": false,
+        "initial_population": 1319820.0,
+        "remaining_population": 1463.5477120443024,
+        "state_person_years": {
+          "healthy": 6702633.712579214,
+          "insulin_resistant": 2271731.054117216,
+          "t2d": 1071355.0493474137
+        },
+        "state_years_per_initial_person": {
+          "healthy": 5.078445327831988,
+          "insulin_resistant": 1.7212430892979464,
+          "t2d": 0.8117433054108998
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 182165.7624535881,
+          "ir_to_healthy": 33422.3486348489,
+          "ir_to_t2d": 83555.8715871223
+        },
+        "deaths": 1173697.0757584549,
+        "initial_age": 84,
+        "initial_age_is_open": false,
+        "initial_population": 1174606.0,
+        "remaining_population": 908.9242415451007,
+        "state_person_years": {
+          "healthy": 5624036.477695698,
+          "insulin_resistant": 1875146.6600818976,
+          "t2d": 863276.7487149801
+        },
+        "state_years_per_initial_person": {
+          "healthy": 4.788019538207449,
+          "insulin_resistant": 1.5964048030419542,
+          "t2d": 0.7349500587558553
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 152823.99029044388,
+          "ir_to_healthy": 27542.913352537165,
+          "ir_to_t2d": 68857.28338134289
+        },
+        "deaths": 1051547.2889587001,
+        "initial_age": 85,
+        "initial_age_is_open": false,
+        "initial_population": 1052120.0,
+        "remaining_population": 572.7110412998369,
+        "state_person_years": {
+          "healthy": 4740354.470241422,
+          "insulin_resistant": 1554523.440690914,
+          "t2d": 698971.4532417777
+        },
+        "state_years_per_initial_person": {
+          "healthy": 4.505526432575582,
+          "insulin_resistant": 1.4775153411121487,
+          "t2d": 0.6643457526154599
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 128280.88789877431,
+          "ir_to_healthy": 22701.531490192596,
+          "ir_to_t2d": 56753.82872548147
+        },
+        "deaths": 945625.8548759378,
+        "initial_age": 86,
+        "initial_age_is_open": false,
+        "initial_population": 945990.9999999999,
+        "remaining_population": 365.1451240620741,
+        "state_person_years": {
+          "healthy": 3999921.0129730203,
+          "insulin_resistant": 1289797.2954172587,
+          "t2d": 566451.7429453143
+        },
+        "state_years_per_initial_person": {
+          "healthy": 4.228286540752524,
+          "insulin_resistant": 1.3634350595484088,
+          "t2d": 0.5987918943682491
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 102552.5360778772,
+          "ir_to_healthy": 17818.10705478892,
+          "ir_to_t2d": 44545.26763697232
+        },
+        "deaths": 811380.5927498592,
+        "initial_age": 87,
+        "initial_age_is_open": false,
+        "initial_population": 811605.0,
+        "remaining_population": 224.40725014082594,
+        "state_person_years": {
+          "healthy": 3216001.391533147,
+          "insulin_resistant": 1019705.4506563264,
+          "t2d": 437755.28467248334
+        },
+        "state_years_per_initial_person": {
+          "healthy": 3.9625204274655124,
+          "insulin_resistant": 1.256406072727899,
+          "t2d": 0.5393698716401246
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 84028.20791865089,
+          "ir_to_healthy": 14332.65806592616,
+          "ir_to_t2d": 35831.64516481541
+        },
+        "deaths": 714814.8088174606,
+        "initial_age": 88,
+        "initial_age_is_open": false,
+        "initial_population": 714958.0,
+        "remaining_population": 143.1911825394987,
+        "state_person_years": {
+          "healthy": 2651568.7259896747,
+          "insulin_resistant": 826758.2949278775,
+          "t2d": 347225.26126399555
+        },
+        "state_years_per_initial_person": {
+          "healthy": 3.7087055826911155,
+          "insulin_resistant": 1.156373234410801,
+          "t2d": 0.4856582642113181
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 68847.86233290502,
+          "ir_to_healthy": 11528.188499705064,
+          "ir_to_t2d": 28820.471249262675
+        },
+        "deaths": 630777.3547860838,
+        "initial_age": 89,
+        "initial_age_is_open": false,
+        "initial_population": 630870.0,
+        "remaining_population": 92.64521391618136,
+        "state_person_years": {
+          "healthy": 2187365.3104094835,
+          "insulin_resistant": 670760.8545003218,
+          "t2d": 275841.88296877354
+        },
+        "state_years_per_initial_person": {
+          "healthy": 3.467220363005823,
+          "insulin_resistant": 1.0632314969808705,
+          "t2d": 0.43724045043950976
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 51786.97824259897,
+          "ir_to_healthy": 8512.570109849448,
+          "ir_to_t2d": 21281.42527462362
+        },
+        "deaths": 511796.14019327384,
+        "initial_age": 90,
+        "initial_age_is_open": false,
+        "initial_population": 511852.0,
+        "remaining_population": 55.8598067261569,
+        "state_person_years": {
+          "healthy": 1657550.964871767,
+          "insulin_resistant": 499991.8778296328,
+          "t2d": 201520.0590598383
+        },
+        "state_years_per_initial_person": {
+          "healthy": 3.2383403110113216,
+          "insulin_resistant": 0.9768290010191086,
+          "t2d": 0.39370767147503244
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 41946.69681627067,
+          "ir_to_healthy": 6769.015953547656,
+          "ir_to_t2d": 16922.539883869144
+        },
+        "deaths": 447790.14247013576,
+        "initial_age": 91,
+        "initial_age_is_open": false,
+        "initial_population": 447827.0,
+        "remaining_population": 36.857529864225256,
+        "state_person_years": {
+          "healthy": 1353438.581054009,
+          "insulin_resistant": 401687.6890679112,
+          "t2d": 158827.04983485624
+        },
+        "state_years_per_initial_person": {
+          "healthy": 3.0222353298349787,
+          "insulin_resistant": 0.8969706807939476,
+          "t2d": 0.35466162119491734
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 32758.52997002105,
+          "ir_to_healthy": 5190.081984145439,
+          "ir_to_t2d": 12975.204960363591
+        },
+        "deaths": 378213.1420040096,
+        "initial_age": 92,
+        "initial_age_is_open": false,
+        "initial_population": 378237.0,
+        "remaining_population": 23.85799599040176,
+        "state_person_years": {
+          "healthy": 1066237.949136337,
+          "insulin_resistant": 311448.7529241599,
+          "t2d": 120928.5403119085
+        },
+        "state_years_per_initial_person": {
+          "healthy": 2.8189678670683644,
+          "insulin_resistant": 0.8234222271331465,
+          "t2d": 0.3197163162564966
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 25305.7251551776,
+          "ir_to_healthy": 3936.760118358204,
+          "ir_to_t2d": 9841.90029589552
+        },
+        "deaths": 316313.4369655747,
+        "initial_age": 93,
+        "initial_age_is_open": false,
+        "initial_population": 316329.0,
+        "remaining_population": 15.563034425304716,
+        "state_person_years": {
+          "healthy": 831468.409838268,
+          "insulin_resistant": 239117.6164894521,
+          "t2d": 91260.59153879524
+        },
+        "state_years_per_initial_person": {
+          "healthy": 2.628492518353575,
+          "insulin_resistant": 0.7559143059582021,
+          "t2d": 0.28849897271130764
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 19375.966528939236,
+          "ir_to_healthy": 2960.1385659815132,
+          "ir_to_t2d": 7400.346414953788
+        },
+        "deaths": 262426.7349160122,
+        "initial_age": 94,
+        "initial_age_is_open": false,
+        "initial_population": 262437.0,
+        "remaining_population": 10.265083987811998,
+        "state_person_years": {
+          "healthy": 643142.9722929972,
+          "insulin_resistant": 182169.74518030926,
+          "t2d": 68403.99498152803
+        },
+        "state_years_per_initial_person": {
+          "healthy": 2.4506566234677165,
+          "insulin_resistant": 0.6941465768177096,
+          "t2d": 0.260649203357484
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 13727.522780540236,
+          "ir_to_healthy": 2059.8255271499565,
+          "ir_to_t2d": 5149.56381787489
+        },
+        "deaths": 201578.60031035112,
+        "initial_age": 95,
+        "initial_age_is_open": false,
+        "initial_population": 201585.0,
+        "remaining_population": 6.399689648884234,
+        "state_person_years": {
+          "healthy": 460662.275926659,
+          "insulin_resistant": 128569.07204573289,
+          "t2d": 47536.81344190681
+        },
+        "state_years_per_initial_person": {
+          "healthy": 2.285201160436833,
+          "insulin_resistant": 0.6377908676029114,
+          "t2d": 0.23581523149989736
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 9969.605189785769,
+          "ir_to_healthy": 1469.4603022697613,
+          "ir_to_t2d": 3673.6507556744045
+        },
+        "deaths": 158781.8164028183,
+        "initial_age": 96,
+        "initial_age_is_open": false,
+        "initial_population": 158786.0,
+        "remaining_population": 4.183597181678754,
+        "state_person_years": {
+          "healthy": 338493.75421910925,
+          "insulin_resistant": 93126.78912211326,
+          "t2d": 33923.728971166915
+        },
+        "state_years_per_initial_person": {
+          "healthy": 2.131760698166773,
+          "insulin_resistant": 0.5864924434277157,
+          "t2d": 0.2136443324421984
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 6948.520267634044,
+          "ir_to_healthy": 1006.0854177661741,
+          "ir_to_t2d": 2515.213544415435
+        },
+        "deaths": 120048.3115430698,
+        "initial_age": 97,
+        "initial_age_is_open": false,
+        "initial_population": 120051.0,
+        "remaining_population": 2.6884569302058487,
+        "state_person_years": {
+          "healthy": 238884.68693293785,
+          "insulin_resistant": 64811.6189846073,
+          "t2d": 23261.219761069766
+        },
+        "state_years_per_initial_person": {
+          "healthy": 1.9898600339267298,
+          "insulin_resistant": 0.5398673812347028,
+          "t2d": 0.19376114952036855
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 4579.517197285964,
+          "ir_to_healthy": 651.2866237754147,
+          "ir_to_t2d": 1628.2165594385367
+        },
+        "deaths": 85826.3242832497,
+        "initial_age": 98,
+        "initial_age_is_open": false,
+        "initial_population": 85828.0,
+        "remaining_population": 1.6757167503018466,
+        "state_person_years": {
+          "healthy": 159545.97909047795,
+          "insulin_resistant": 42698.76693697506,
+          "t2d": 15081.602687485296
+        },
+        "state_years_per_initial_person": {
+          "healthy": 1.8589036105988483,
+          "insulin_resistant": 0.49749227451385397,
+          "t2d": 0.17571891093215847
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 3065.925224254953,
+          "ir_to_healthy": 428.06504706071775,
+          "ir_to_t2d": 1070.1626176517946
+        },
+        "deaths": 62324.91019148134,
+        "initial_age": 99,
+        "initial_age_is_open": false,
+        "initial_population": 62325.99999999999,
+        "remaining_population": 1.08980851865713,
+        "state_person_years": {
+          "healthy": 108331.93351119847,
+          "insulin_resistant": 28600.041763643767,
+          "t2d": 9902.753679240668
+        },
+        "state_years_per_initial_person": {
+          "healthy": 1.7381499456278036,
+          "insulin_resistant": 0.4588781850855786,
+          "t2d": 0.15888639860155745
+        }
+      },
+      {
+        "cumulative_transitions": {
+          "healthy_to_ir": 4904.022019208743,
+          "ir_to_healthy": 671.3188490343518,
+          "ir_to_t2d": 1678.2971225858798
+        },
+        "deaths": 108133.25809202332,
+        "initial_age": 100,
+        "initial_age_is_open": true,
+        "initial_population": 108135.0,
+        "remaining_population": 1.7419079766894725,
+        "state_person_years": {
+          "healthy": 175898.78639585257,
+          "insulin_resistant": 45785.66725100993,
+          "t2d": 15374.129928171486
+        },
+        "state_years_per_initial_person": {
+          "healthy": 1.6266591426998898,
+          "insulin_resistant": 0.42341209831238663,
+          "t2d": 0.1421753357208257
+        }
+      }
+    ],
+    "horizon_years": 25,
+    "interpretation": "Restricted time in the original closed population; death ends accrual; no extrapolation after the horizon",
+    "state_person_years": {
+      "healthy": 4537400208.614455,
+      "insulin_resistant": 1527950905.5439568,
+      "t2d": 1232831761.1560962
+    },
+    "state_years_per_initial_person": {
+      "healthy": 13.34514569734189,
+      "insulin_resistant": 4.493923065053173,
+      "t2d": 3.6259352749407565
+    },
+    "timing": "Constant within-year mortality; metabolic transitions occur at year end, before aging",
+    "unit": "person-years and years per initial person"
+  },
+  "validation_only": true
+}

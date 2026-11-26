@@ -1,0 +1,45 @@
+name: Submit evidence
+description: Add a study, dataset or effect estimate.
+title: "[Evidence] "
+labels: ["evidence"]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Citation and link to the primary source.
+    validations:
+      required: true
+  - type: dropdown
+    id: design
+    attributes:
+      label: Study type
+      options:
+        - Randomized trial / meta-analysis of trials
+        - Natural experiment / quasi-experimental
+        - Cohort or other observational
+        - Dataset (no effect estimate)
+        - Mechanism / expert judgment
+    validations:
+      required: true
+  - type: textarea
+    id: estimate
+    attributes:
+      label: Effect estimate and uncertainty
+      description: e.g. "HbA1c −0.4 points (95% CI −0.6 to −0.2) at 12 months".
+  - type: input
+    id: population
+    attributes:
+      label: Population and setting
+  - type: input
+    id: lever
+    attributes:
+      label: Which lever or gap slice does it inform?
+      description: See docs/04-levers.md and docs/05-plans-vs-the-frontier.md (G1–G5).
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: This submission contains no individual health records or identifiable personal data.
+          required: true

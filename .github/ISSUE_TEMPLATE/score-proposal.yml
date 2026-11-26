@@ -1,0 +1,42 @@
+name: Score a proposal
+description: Submit any health plan to be scored against the frontier.
+title: "[Score] "
+labels: ["scoring-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Any plan from any direction can be scored. Scores are measurements, not endorsements. See docs/09-scoring-a-proposal.md.
+  - type: input
+    id: name
+    attributes:
+      label: Proposal name and version
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link to the primary source document
+    validations:
+      required: true
+  - type: checkboxes
+    id: levers
+    attributes:
+      label: Levers it pulls
+      options:
+        - label: Coverage / financing
+        - label: Cost-sharing
+        - label: Food and nutrition
+        - label: Prevention / PreChronic programs
+        - label: Drugs and devices
+        - label: Payment model (paying for outcomes)
+        - label: External causes (overdose, firearms, traffic)
+        - label: Other
+  - type: textarea
+    id: claims
+    attributes:
+      label: The proposal's own claims about cost and outcomes
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence you think should be used

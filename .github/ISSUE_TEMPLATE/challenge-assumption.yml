@@ -1,0 +1,40 @@
+name: Challenge an assumption
+description: Dispute a number, grade, definition or argument in the benchmark.
+title: "[Challenge] "
+labels: ["challenge"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Where is it?
+      description: File and section (e.g. docs/05-plans-vs-the-frontier.md, Step 3 table).
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: What the benchmark currently says
+    validations:
+      required: true
+  - type: textarea
+    id: objection
+    attributes:
+      label: Why it's wrong or weak
+      description: The stronger the evidence, the faster this moves.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Links to primary sources, with effect sizes and uncertainty where possible.
+  - type: dropdown
+    id: impact
+    attributes:
+      label: What would change if you're right?
+      options:
+        - A number or range
+        - An evidence grade
+        - A scoreboard definition (standard change)
+        - A plan's score
+        - The argument or wording

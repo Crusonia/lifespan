@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Food is Health newsletter
+    url: https://foodishealth.substack.com/
+    about: The broader conversation this benchmark comes from.
+  - name: Demeter model
+    url: https://github.com/Crusonia/Demeter/issues
+    about: Modeling bugs and model changes go to Demeter.

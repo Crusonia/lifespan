@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you cite this benchmark, cite a tagged release and the version number."
+title: "Lifespan for All: a first-principles benchmark for health policy"
+version: 0.1.0-draft
+date-released: 2026-11-26
+authors:
+  - family-names: Williams
+    given-names: Carter
+  - name: "Food is Health contributors"
+repository-code: "https://github.com/Crusonia/lifespan"
+license: CC-BY-4.0
+keywords:
+  - healthy life expectancy
+  - health policy
+  - benchmark
+  - system dynamics
+  - food is health
